@@ -1,4 +1,4 @@
 Gravitris
 =========
 
-gravitris
+Gravitris, a tetris project with physics.
