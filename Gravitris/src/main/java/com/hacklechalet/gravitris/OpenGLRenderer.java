@@ -63,25 +63,15 @@ public class OpenGLRenderer implements Renderer {
        // gl.glRotatef(mAngleZ, 0, 0, 1);
        // gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
        // // Draw all lines
-        gl.glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
-        Square a = new Square();
-        a.setPosition(0,0);
-        a.draw(gl);
-
-        gl.glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
-        a = new Square();
-        a.setPosition(1,1);
-        a.draw(gl);
-
-        gl.glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
-        a = new Square();
-        a.setPosition(1.5f,1.5f);
-        a.draw(gl);
-
-        gl.glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
-        a = new Square();
-        a.setPosition(2,2);
-        a.draw(gl);
+        for(int x=-10;x<10;++x)
+        {
+            for(int y=-10;y<10;++y)
+            {
+                Square a = new Square();
+                a.setPosition(x,y);
+                a.draw(gl);
+            }
+        }
     }
 
 

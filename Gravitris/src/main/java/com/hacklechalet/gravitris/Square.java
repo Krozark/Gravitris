@@ -99,11 +99,18 @@ public class Square {
     // The order we like to connect them.
     private short[] indices = { 0, 1, 2, 0, 2, 3 };
 
+    float[] colors = {
+            1f, 0f, 0f, 1f, // vertex 0 red
+            0f, 1f, 0f, 1f, // vertex 1 green
+            0f, 0f, 1f, 1f, // vertex 2 blue
+            1f, 0f, 1f, 1f, // vertex 3 magenta
+    };
+
     // Our vertex buffer.
     private FloatBuffer vertexBuffer;
-
     // Our index buffer.
     private ShortBuffer indexBuffer;
+    private FloatBuffer colorBuffer;
 
     public Square() {
         top_left = new Vector2<Float>((float)0,(float)1);
@@ -118,6 +125,12 @@ public class Square {
         indexBuffer = ibb.asShortBuffer();
         indexBuffer.put(indices);
         indexBuffer.position(0);
+
+        ByteBuffer cbb = ByteBuffer.allocateDirect(colors.length * 4);
+        cbb.order(ByteOrder.nativeOrder());
+        colorBuffer = cbb.asFloatBuffer();
+        colorBuffer.put(colors);
+        colorBuffer.position(0);
     }
 
     public void move(float x,float y)
@@ -178,6 +191,10 @@ public class Square {
         // Specifies the location and data format of an array of vertex
         // coordinates to use when rendering.
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
+
+        gl.glEnableClientState(GL10.GL_COLOR_ARRAY); // NEW LINE ADDED.
+        // Point out the where the color buffer is.
+        gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer); // NEW LINE ADDED
 
         gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_SHORT, indexBuffer);
 
