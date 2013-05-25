@@ -44,6 +44,7 @@ public class OpenGLRenderer implements Renderer {
     long elapsedTime;
     Clock clock;
 
+    private boolean pause = false;
     private GamePhysics game;
 
 
@@ -77,9 +78,9 @@ public class OpenGLRenderer implements Renderer {
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
-
         sqr = new Square(0.5f,0,0);
-        sqr2 = new Square(0.5f,0.5f,0.5f);
+        sqr2 = sqr.genNeighboor(Square.DIRECTION_RIGHT);
+
         clock = new Clock();
     }
 
@@ -94,7 +95,8 @@ public class OpenGLRenderer implements Renderer {
         elapsedTime = clock.reset();
         double elapsedSec = elapsedTime/1000.0;
 
-        game.next((float)elapsedSec);
+        if(!pause)
+            game.next((float)elapsedSec);
 
         Log.d("Gravitris", "" + width + " " + height);
 
@@ -141,5 +143,15 @@ public class OpenGLRenderer implements Renderer {
         mPreviousX = x;
         mPreviousY = y;
         return true;
+    }
+
+    public void setPause()
+    {
+        this.pause = true;
+    }
+
+    public void resume()
+    {
+        this.pause = false;
     }
 }
