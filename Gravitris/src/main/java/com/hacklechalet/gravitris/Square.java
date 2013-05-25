@@ -132,10 +132,10 @@ public class Square extends  PhysiqueObject{
     {
         super(posx,posy,BodyType.DYNAMIC);
 
-        top_left = new Vector2<Float>((float)0,(float)0);
-        top_right = new Vector2<Float>((float)1*size,(float)0);
-        bottom_left = new Vector2<Float>((float)0,(float)1*size);
-        bottom_right = new Vector2<Float>((float)1*size,(float)1*size);
+        top_left = new Vector2<Float>(posx,posy);
+        top_right = new Vector2<Float>(posx + (float)1*size, posy);
+        bottom_left = new Vector2<Float>(posx, posy + (float)1*size);
+        bottom_right = new Vector2<Float>(posx + (float)1*size, posy + (float)1*size);
 
         // short is 2 bytes, therefore we multiply the number if
         // vertices with 2.
@@ -158,7 +158,7 @@ public class Square extends  PhysiqueObject{
         fixture = body.createFixture(fixtureDef);
 
 
-        majPosition();
+        //majPosition();
 
         joinFixtureList = new Vector<Fixture>();
     }
@@ -169,9 +169,13 @@ public class Square extends  PhysiqueObject{
      */
     public Square genNeighboor(int position)
     {
+        /*
         Vector2<Float> originPosition = this.getPosition();
         float originX = originPosition.x;
         float originY = originPosition.y;
+        */
+        float originX = this.top_left.x;
+        float originY = this.top_left.y;
         float targetX;
         float targetY;
 
