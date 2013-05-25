@@ -104,7 +104,7 @@ public class Square extends  PhysiqueObject{
     private Vector2<Float> bottom_left;//1,1
     private Vector2<Float> bottom_right;//0,1
     // The order we like to connect them.
-    private short[] indices = { 0, 1, 2, 0, 2, 3 };
+    private short[] indices = { 0, 1, 2, 2, 1, 3 };
 
     public final static int DIRECTION_TOP = 1;
     public final static int DIRECTION_RIGHT = 2;
@@ -132,10 +132,10 @@ public class Square extends  PhysiqueObject{
     {
         super(posx,posy,BodyType.DYNAMIC);
 
-        top_left = new Vector2<Float>((float)0,(float)1);
-        top_right = new Vector2<Float>((float)1,(float)1);
-        bottom_left = new Vector2<Float>((float)0,(float)0);
-        bottom_right = new Vector2<Float>((float)1,(float)0);
+        top_left = new Vector2<Float>((float)0,(float)0);
+        top_right = new Vector2<Float>((float)1*size,(float)0);
+        bottom_left = new Vector2<Float>((float)0,(float)1*size);
+        bottom_right = new Vector2<Float>((float)1*size,(float)1*size);
 
         // short is 2 bytes, therefore we multiply the number if
         // vertices with 2.
@@ -151,10 +151,14 @@ public class Square extends  PhysiqueObject{
         colorBuffer.put(colors);
         colorBuffer.position(0);
 
-        shape.setAsBox(toMet(_size),toMet(_size));
+        setSize(_size);
+
+        shape.setAsBox(toMet(size/2),toMet(size/2));
         fixtureDef.shape = shape;
         fixture = body.createFixture(fixtureDef);
-        setSize(_size);
+
+
+        majPosition();
 
         joinFixtureList = new Vector<Fixture>();
     }
@@ -221,19 +225,29 @@ public class Square extends  PhysiqueObject{
 
     public void setPosition(float x,float y)
     {
-        float ratio = 0.5f*size;
+        /*top_left.x = x*size;
+        top_left.y = y*size+size;
 
-        top_left.x = x-ratio;
-        top_left.y = y+ratio;
+        top_right.x = x*size+size;
+        top_right.y = y*size+size;
 
-        top_right.x = x+ratio;
-        top_right.y = y+ratio;
+        bottom_left.x = x*size;
+        bottom_left.y = y*size;
 
-        bottom_left.x = x-ratio;
-        bottom_left.y = y-ratio;
+        bottom_right.x = x*size+size;
+        bottom_right.y = y*size;*/
 
-        bottom_right.x = x+ratio;
-        bottom_right.y = y-ratio;
+        top_left.x = x*size;
+        top_left.y = y*size;
+
+        top_right.x = x*size+size;
+        top_right.y = y*size;
+
+        bottom_left.x = x*size;
+        bottom_left.y = y*size+size;
+
+        bottom_right.x = x*size+size;
+        bottom_right.y = y*size+size;
     }
 
     private void majPosition()
@@ -249,8 +263,7 @@ public class Square extends  PhysiqueObject{
 
     public Vector2<Float> getPosition()
     {
-        float ratio = 0.5f*size;
-        return new Vector2<Float>(top_left.x+ratio,top_left.y-ratio);
+        return new Vector2<Float>(top_left.x,top_left.y);
     }
 
     private void setSize(float _size)
@@ -269,9 +282,9 @@ public class Square extends  PhysiqueObject{
 
         float matrixVertices[] = {
                 top_left.x,  top_left.y, 0.0f,  // 0, Top Left
+                top_right.x,  top_right.y, 0.0f,  // 3, Top Right
                 bottom_left.x, bottom_left.y, 0.0f,  // 1, Bottom Left
                 bottom_right.x, bottom_right.y, 0.0f,  // 2, Bottom Right
-                top_right.x,  top_right.y, 0.0f,  // 3, Top Right
         };
         // a float is 4 bytes, therefore we multiply the number if
         // vertices with 4.
@@ -306,5 +319,4 @@ public class Square extends  PhysiqueObject{
         // Disable face culling.
         gl.glDisable(GL10.GL_CULL_FACE);
     }
-
 }

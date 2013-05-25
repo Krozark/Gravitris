@@ -96,7 +96,7 @@ public class OpenGLRenderer implements Renderer {
         if(!pause)
             game.next((float)elapsedSec);
 
-        Log.d("Gravitris", "" + width + " " + height);
+        //Log.d("Gravitris", "" + width + " " + height);
 
         //Log.d("Gravitris", ""+ elapsedSec);
         //sqr.move((float)(elapsedSec*gravity[0]),(float)(elapsedSec*gravity[1]));
