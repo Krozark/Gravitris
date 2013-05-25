@@ -61,7 +61,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         int height = display.getHeight();  // deprecated
 
         GLSurfaceView view = new GLSurfaceView(this);
-        view.setRenderer(new OpenGLRenderer(width,height));
+        view.setRenderer(new OpenGLRenderer(width,height,this.gravityValues));
 
 
         this.setContentView(view);
