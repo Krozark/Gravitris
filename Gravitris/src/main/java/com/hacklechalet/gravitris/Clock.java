@@ -33,4 +33,9 @@ public class Clock{
 
         return res;
     }
+
+    public void stop()
+    {
+        timeStart = System.currentTimeMillis();
+    }
 }
