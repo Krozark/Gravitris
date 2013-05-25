@@ -137,6 +137,9 @@ public class Square {
 
     public void move(float x,float y)
     {
+        x*=size;
+        y*=size;
+
         top_left.x+=x;
         top_left.y+=y;
 

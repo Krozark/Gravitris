@@ -16,6 +16,8 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
+import static android.util.FloatMath.sin;
+
 public class OpenGLRenderer implements Renderer {
     private Context mContext;
     private FloatBuffer mVertexBuffer = null;
@@ -31,6 +33,11 @@ public class OpenGLRenderer implements Renderer {
 
     private int width;
     private int height;
+
+    private Square sqr;
+    long elapsedTime;
+    Clock clock;
+
 
     public void MyRenderer(Context context) {
         mContext = context;
@@ -58,6 +65,10 @@ public class OpenGLRenderer implements Renderer {
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
         setAllBuffers();
+
+        sqr = new Square();
+        sqr.setSize(0.5f);
+        clock = new Clock();
     }
 
     public void onDrawFrame(GL10 gl) {
@@ -72,16 +83,9 @@ public class OpenGLRenderer implements Renderer {
        // gl.glRotatef(mAngleZ, 0, 0, 1);
        // gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
        // // Draw all lines
-
-
-        for(int x=-10;x<10;++x)
-        for(int y=-10;y<10;++y)
-        {
-            Square a = new Square();
-            a.setSize(0.5f);
-            a.setPosition(x/2.0f,y/2.0f);
-            a.draw(gl);
-        }
+        elapsedTime += clock.reset();
+        sqr.move(sin(elapsedTime), sin(elapsedTime));
+        sqr.draw(gl);
     }
 
 
