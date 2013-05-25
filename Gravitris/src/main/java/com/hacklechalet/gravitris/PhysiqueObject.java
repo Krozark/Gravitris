@@ -23,7 +23,7 @@ public class PhysiqueObject {
         shape = new PolygonShape();
 
         fixtureDef.density = 1.0f;
-        fixtureDef.friction = 0.4f;
+        fixtureDef.friction = 0.8f;
         fixtureDef.restitution = 0.5f;
     }
 
@@ -56,6 +56,6 @@ public class PhysiqueObject {
         return new Vec2(toMet(v.x),toMet(v.y));
     }
     final static float pi = 3.14159265358979323846f;
-    final static float scale = 32.0f;
+    final static float scale = 0.25f;
     static World world;
 }
