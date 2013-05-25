@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.view.Menu;
 import android.opengl.GLSurfaceView;
+import android.view.Window;
+import android.view.WindowManager;
 
 public class MainActivity extends Activity {
 
@@ -11,8 +13,10 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.activity_main);
-        //this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        //getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+        Window win = this.getWindow();
+        this.requestWindowFeature(win.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         GLSurfaceView view = new GLSurfaceView(this);
         view.setRenderer(new OpenGLRenderer());
         setContentView(view);
