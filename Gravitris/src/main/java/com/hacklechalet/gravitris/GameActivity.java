@@ -23,6 +23,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        this.gravityValues = new float[3];
         super.onCreate(savedInstanceState);
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -71,7 +72,9 @@ public class GameActivity extends Activity implements SensorEventListener {
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_GRAVITY)
         {
-            this.gravityValues = event.values;
+            this.gravityValues[0] = event.values[0];
+            this.gravityValues[1] = event.values[1];
+            this.gravityValues[2] = event.values[2];
         }
 
     }
