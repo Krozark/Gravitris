@@ -63,6 +63,8 @@ public class OpenGLRenderer implements Renderer {
         gl.glRotatef(mAngleZ, 0, 0, 1);
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
         // Draw all lines
+        gl.glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+
         gl.glDrawElements(GL10.GL_LINES, mNumOfTriangleBorderIndices, GL10.GL_UNSIGNED_SHORT, mTriangleBorderIndicesBuffer);
 
     }
