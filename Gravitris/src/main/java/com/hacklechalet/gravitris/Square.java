@@ -112,6 +112,8 @@ public class Square {
     private ShortBuffer indexBuffer;
     private FloatBuffer colorBuffer;
 
+    private float size =1;
+
     public Square() {
         top_left = new Vector2<Float>((float)0,(float)1);
         top_right = new Vector2<Float>((float)1,(float)1);
@@ -150,17 +152,30 @@ public class Square {
 
     public void setPosition(float x,float y)
     {
-        top_left.x = x-0.5f;
-        top_left.y = y+0.5f;
+        float ratio = 0.5f*size;
 
-        top_right.x = x+0.5f;
-        top_right.y = y+0.5f;
+        top_left.x = x-ratio;
+        top_left.y = y+ratio;
 
-        bottom_left.x = x-0.5f;
-        bottom_left.y = y-0.5f;
+        top_right.x = x+ratio;
+        top_right.y = y+ratio;
 
-        bottom_right.x = x+0.5f;
-        bottom_right.y = y-0.5f;
+        bottom_left.x = x-ratio;
+        bottom_left.y = y-ratio;
+
+        bottom_right.x = x+ratio;
+        bottom_right.y = y-ratio;
+    }
+
+    public Vector2<Float> getPosition()
+    {
+        float ratio = 0.5f*size;
+        return new Vector2<Float>(top_left.x+ratio,top_left.y-ratio);
+    }
+
+    public void setSize(float _size)
+    {
+        size = _size;
     }
 
     public void draw(GL10 gl) {
