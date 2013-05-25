@@ -16,7 +16,8 @@
             android:id="@+id/button"
             android:onClick="goToGameActivity" android:visibility="visible" android:clickable="true" android:enabled="true"
             android:layout_alignParentRight="true" android:layout_alignParentLeft="true" android:minWidth="10dp"
-            android:minHeight="10dp" android:layout_alignParentTop="true" android:textColor="#ffffff"/>
+            android:minHeight="10dp" android:layout_alignParentTop="true" android:textColor="#ffffff"
+            android:height="80dp"/>
     <TableLayout
             android:orientation="horizontal"
             android:layout_width="fill_parent"

@@ -10,9 +10,7 @@ import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.*;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.*;
 
 /**
  * Created by samuel on 25/05/13.
@@ -43,12 +41,14 @@ public class GameActivity extends Activity implements SensorEventListener {
     @Override
     protected void onPause() {
         this.sensorManager.unregisterListener(this);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onPause();
     }
 
     @Override
     protected void onResume() {
         this.sensorManager.registerListener(this, sensor, GameActivity.REFRESH_RATE);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onResume();
     }
 
@@ -56,6 +56,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     protected void onDestroy()
     {
         this.sensorManager.unregisterListener(this);
+        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onDestroy();
     }
 
@@ -71,18 +72,18 @@ public class GameActivity extends Activity implements SensorEventListener {
 
         this.setContentView(view);
 
-        LinearLayout layout = new LinearLayout(this);
+        LinearLayout row = new LinearLayout(this);
 
         TextView textViewScore = new TextView(this);
         textViewScore.setText("Score :");
 
-        textViewScore.setBackgroundColor(Color.WHITE);
+        textViewScore.setBackgroundColor(Color.DKGRAY);
         textViewScore.setTextColor(Color.BLACK);
 
         TextView textViewResScore = new TextView(this);
         textViewResScore.setText(" 0 ");
 
-        textViewResScore.setBackgroundColor(Color.WHITE);
+        textViewResScore.setBackgroundColor(Color.DKGRAY);
         textViewResScore.setTextColor(Color.BLACK);
 
         Button buttonPause = new Button(this);
@@ -91,13 +92,17 @@ public class GameActivity extends Activity implements SensorEventListener {
 
         buttonPause.setText("Pause");
 
-        layout.setBackgroundColor(Color.DKGRAY);
+        row.setBackgroundColor(Color.DKGRAY);
 
-        layout.addView(textViewScore, 0);
-        layout.addView(textViewResScore, 1);
-        layout.addView(buttonPause, 2);
+        textViewScore.setWidth((width-10) / 3);
+        textViewResScore.setWidth((width-10) / 3);
+        buttonPause.setWidth((width-10) / 3);
 
-        this.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        row.addView(textViewScore, 0);
+        row.addView(textViewResScore, 1);
+        row.addView(buttonPause, 2);
+
+        this.addContentView(row, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     @Override
