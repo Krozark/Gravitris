@@ -20,6 +20,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     protected Sensor sensor;
     protected float[] gravityValues;
     public final static int REFRESH_RATE = 1000000 / 60;
+    private GamePhysics game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +62,11 @@ public class GameActivity extends Activity implements SensorEventListener {
         int width = display.getWidth();  // deprecated
         int height = display.getHeight();  // deprecated
 
+        game = new GamePhysics();
+        PhysiqueObject.world = game.world;
+
         GLSurfaceView view = new GLSurfaceView(this);
         view.setRenderer(new OpenGLRenderer(width,height,this.gravityValues));
-
 
         this.setContentView(view);
     }

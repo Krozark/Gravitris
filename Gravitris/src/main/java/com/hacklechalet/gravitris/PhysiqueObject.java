@@ -8,10 +8,10 @@ import org.jbox2d.dynamics.*;
  * Created by krozark on 25/05/13.
  */
 public class PhysiqueObject {
-    protected static BodyDef bodyDef;
+    protected static BodyDef bodyDef = new BodyDef();
     protected Body body;
     protected PolygonShape shape;
-    protected static FixtureDef fixtureDef;
+    protected static FixtureDef fixtureDef = new FixtureDef();
     protected Fixture fixture;
 
     public PhysiqueObject(float posx,float posy,BodyType type)

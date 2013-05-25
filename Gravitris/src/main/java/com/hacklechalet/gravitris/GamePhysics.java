@@ -7,7 +7,7 @@ import org.jbox2d.dynamics.*;
  * Created by krozark on 25/05/13.
  */
 public class GamePhysics {
-    private World world;
+    public World world;
     private int velocityIter = 8;
     private int positionIter = 3;
 
