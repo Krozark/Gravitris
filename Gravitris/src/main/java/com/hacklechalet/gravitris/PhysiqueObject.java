@@ -8,17 +8,20 @@ import org.jbox2d.dynamics.*;
  * Created by krozark on 25/05/13.
  */
 public class PhysiqueObject {
-    protected static BodyDef bodyDef = new BodyDef();
+    protected BodyDef bodyDef;
     protected Body body;
     protected PolygonShape shape;
-    protected static FixtureDef fixtureDef = new FixtureDef();
+    protected FixtureDef fixtureDef;
     protected Fixture fixture;
 
     public PhysiqueObject(float posx,float posy,BodyType type)
     {
+        bodyDef = new BodyDef();
         bodyDef.type = type;
         bodyDef.position.set(toMet(posx),toMet(posy));
         body = world.createBody(bodyDef);
+
+        fixtureDef = new FixtureDef();
 
         fixtureDef.density = 1.0f;
         fixtureDef.friction = 0.4f;
