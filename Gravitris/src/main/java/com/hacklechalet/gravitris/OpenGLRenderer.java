@@ -42,7 +42,9 @@ public class OpenGLRenderer implements Renderer {
 
     private SquareSet sqrS;
 
-    private Wall wall;
+    private Square sqr;
+
+    private Wall walls[];
 
     long elapsedTime;
     Clock clock;
@@ -80,6 +82,7 @@ public class OpenGLRenderer implements Renderer {
         gl.glEnable(GL10.GL_DEPTH_TEST);
         // The type of depth testing to do.
         //gl.glDepthFunc(GL10.GL_LEQUAL);
+
         // Really nice perspective calculations.
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
@@ -88,7 +91,16 @@ public class OpenGLRenderer implements Renderer {
         sqrS = new SquareSet();
         sqrS.add(new SquareSet(0.5f));
 
-        wall =new Wall(1,3,0,0);
+        sqr = new Square(0.5f,3,3);
+
+        Wall[] w = {
+            new Wall(0.1f,20,4,0),
+            new Wall(0.1f,20,-5,0),
+            new Wall(10f,0.1f,0f,-8.3f),
+            new Wall(10f,0.1f,0f,6.2f)
+        };
+
+        walls = w;
 
         clock = new Clock();
     }
@@ -107,12 +119,8 @@ public class OpenGLRenderer implements Renderer {
         if(!pause)
             game.next((float)elapsedSec);
 
-        //Log.d("Gravitris", "" + width + " " + height);
-
-        //Log.d("Gravitris", ""+ elapsedSec);
-        //sqr.move((float)(elapsedSec*gravity[0]),(float)(elapsedSec*gravity[1]));
-        wall.draw(gl);
         sqrS.draw(gl);
+        sqr.draw(gl);
     }
 
 
