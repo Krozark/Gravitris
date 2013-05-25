@@ -41,6 +41,8 @@ public class OpenGLRenderer implements Renderer {
     long elapsedTime;
     Clock clock;
 
+    private boolean pause = false;
+
 
     public void MyRenderer(Context context) {
         mContext = context;
@@ -130,5 +132,15 @@ public class OpenGLRenderer implements Renderer {
         mPreviousX = x;
         mPreviousY = y;
         return true;
+    }
+
+    public void setPause()
+    {
+        this.pause = true;
+    }
+
+    public void resume()
+    {
+        this.pause = false;
     }
 }

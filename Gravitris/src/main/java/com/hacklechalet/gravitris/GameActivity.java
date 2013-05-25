@@ -10,6 +10,7 @@ import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -68,7 +69,8 @@ public class GameActivity extends Activity implements SensorEventListener {
         PhysiqueObject.world = game.world;
 
         GLSurfaceView view = new GLSurfaceView(this);
-        view.setRenderer(new OpenGLRenderer(width,height,this.gravityValues));
+        OpenGLRenderer openGlRender = new OpenGLRenderer(width,height,this.gravityValues);
+        view.setRenderer(openGlRender);
 
         this.setContentView(view);
 
@@ -86,10 +88,19 @@ public class GameActivity extends Activity implements SensorEventListener {
         textViewResScore.setBackgroundColor(Color.WHITE);
         textViewResScore.setTextColor(Color.BLACK);
 
+        Button buttonPause = new Button(this);
+
+        buttonPause.setOnClickListener(new OnClickListenerGameButton(openGlRender));
+
+        buttonPause.setText("Pause");
+
+        layout.setBackgroundColor(Color.DKGRAY);
+
         layout.addView(textViewScore, 0);
         layout.addView(textViewResScore, 1);
+        layout.addView(buttonPause, 2);
 
-        this.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        this.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     @Override
