@@ -114,7 +114,12 @@ public class Square extends  PhysiqueObject{
                 targetY = originY;
        }
         Square res = new Square(this.size, targetX, targetY);
+        DistanceJointDef jd = new DistanceJointDef();
+        jd.initialize(body,res.body,body.getWorldCenter(), res.body.getWorldCenter());
+        jd.collideConnected = true;
+        jd.frequencyHz = 50;
 
+        world.createJoint(jd);
 
         return res;
     }
