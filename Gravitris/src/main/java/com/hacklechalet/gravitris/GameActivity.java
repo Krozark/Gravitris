@@ -2,6 +2,7 @@ package com.hacklechalet.gravitris;
 
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -9,6 +10,7 @@ import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.*;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -20,7 +22,6 @@ public class GameActivity extends Activity implements SensorEventListener {
     protected Sensor sensor;
     protected float[] gravityValues;
     public final static int REFRESH_RATE = 1000000 / 60;
-    private GamePhysics game;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +63,29 @@ public class GameActivity extends Activity implements SensorEventListener {
         int width = display.getWidth();  // deprecated
         int height = display.getHeight();  // deprecated
 
-        game = new GamePhysics();
-        PhysiqueObject.world = game.world;
-
         GLSurfaceView view = new GLSurfaceView(this);
         view.setRenderer(new OpenGLRenderer(width,height,this.gravityValues));
 
         this.setContentView(view);
+
+        LinearLayout layout = new LinearLayout(this);
+
+        TextView textViewScore = new TextView(this);
+        textViewScore.setText("Score :");
+
+        textViewScore.setBackgroundColor(Color.WHITE);
+        textViewScore.setTextColor(Color.BLACK);
+
+        TextView textViewResScore = new TextView(this);
+        textViewResScore.setText(" 0 ");
+
+        textViewResScore.setBackgroundColor(Color.WHITE);
+        textViewResScore.setTextColor(Color.BLACK);
+
+        layout.addView(textViewScore, 0);
+        layout.addView(textViewResScore, 1);
+
+        this.addContentView(layout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }
 
     @Override

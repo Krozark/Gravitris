@@ -1,6 +1,6 @@
 package com.hacklechalet.gravitris;
+import android.util.Log;
 import org.jbox2d.common.Vec2;
-import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
@@ -128,8 +128,9 @@ public class Square extends  PhysiqueObject{
 
     private float size =1;
 
-    public Square(float _size) {
-        super(0,0,BodyType.DYNAMIC);
+    public Square(float _size,float posx,float posy)
+    {
+        super(posx,posy,BodyType.DYNAMIC);
 
         top_left = new Vector2<Float>((float)0,(float)1);
         top_right = new Vector2<Float>((float)1,(float)1);
@@ -154,20 +155,17 @@ public class Square extends  PhysiqueObject{
         fixtureDef.shape = shape;
         fixture = body.createFixture(fixtureDef);
         setSize(_size);
-        setPosition(0,0);
 
         joinFixtureList = new Vector<Fixture>();
     }
 
     /**
      * Place a square next to another one
-     * @param origin   Origin square
      * @param position Position (1: Top, 2: Right, 3: Bottom, 4: Left)
      */
-    public Square(Square origin, int position)
+    public Square genNeighboor(int position)
     {
-        this(origin.size);
-        Vector2<Float> originPosition = origin.getPosition();
+        Vector2<Float> originPosition = this.getPosition();
         float originX = originPosition.x;
         float originY = originPosition.y;
         float targetX;
@@ -192,19 +190,18 @@ public class Square extends  PhysiqueObject{
                 targetX = originX - 0.5f;
                 targetY = originY;
        }
-        this.setPosition(targetX, targetY);
-        this.joinFixtureList.add(this.body.createFixture(origin.shape, 1.0f));
-        origin.joinFixtureList.add(origin.body.createFixture(this.shape, 1.0f));
+       Square res = new Square(this.size, targetX, targetY);
+        res.joinFixtureList.add(res.body.createFixture(this.shape, 1.0f));
+        this.joinFixtureList.add(this.body.createFixture(this.shape, 1.0f));
 
-        DistanceJointDef jointDef = new DistanceJointDef();
-        jointDef.initialize(this.body, origin.body, new Vec2(targetX, targetY), new Vec2(originX, originY));
-        jointDef.collideConnected = true;
+        //DistanceJointDef jointDef = new DistanceJointDef();
+        //jointDef.initialize(res.body, this.body, new Vec2(targetX, targetY), new Vec2(originX, originY));
+        //jointDef.collideConnected = true;
 
-
+        return res;
     }
 
-
-    public void move(float x,float y)
+    /*public void move(float x,float y)
     {
         x*=size;
         y*=size;
@@ -220,7 +217,7 @@ public class Square extends  PhysiqueObject{
 
         bottom_right.x+=x;
         bottom_right.y+=y;
-    }
+    }*/
 
     public void setPosition(float x,float y)
     {
@@ -239,6 +236,17 @@ public class Square extends  PhysiqueObject{
         bottom_right.y = y-ratio;
     }
 
+    private void majPosition()
+    {
+        Vec2 origine = body.getPosition();
+        setPosition(toPix(origine.x),toPix(origine.y));
+    }
+
+    private void setRotation(float angle)
+    {
+
+    }
+
     public Vector2<Float> getPosition()
     {
         float ratio = 0.5f*size;
@@ -250,7 +258,15 @@ public class Square extends  PhysiqueObject{
         size = _size;
     }
 
+    private void next()
+    {
+        majPosition();
+        setRotation(-toDeg(body.getAngle()));
+    }
+
     public void draw(GL10 gl) {
+        next();
+
         float matrixVertices[] = {
                 top_left.x,  top_left.y, 0.0f,  // 0, Top Left
                 bottom_left.x, bottom_left.y, 0.0f,  // 1, Bottom Left
