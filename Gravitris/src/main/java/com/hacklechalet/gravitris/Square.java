@@ -223,7 +223,7 @@ public class Square extends  PhysiqueObject{
         bottom_right.y+=y;
     }*/
 
-    public void setPosition(float x,float y)
+    private void setPosition(float x,float y)
     {
         /*top_left.x = x*size;
         top_left.y = y*size+size;
@@ -263,7 +263,7 @@ public class Square extends  PhysiqueObject{
 
     public Vector2<Float> getPosition()
     {
-        return new Vector2<Float>(top_left.x,top_left.y);
+        return new Vector2<Float>(top_left.x+size,top_left.y+size);
     }
 
     private void setSize(float _size)
