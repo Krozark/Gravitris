@@ -11,8 +11,90 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
+import static java.lang.Math.floor;
+import static java.lang.Math.sqrt;
+
+/**
+ * Created by Krozark on 25/05/13.
+ */
+/*
+public class Square {
+    public Square()
+    {
+        center = new Vector2<Float>((float)0,(float)0);
+        top = new Vector2<Float>((float)(-SQRT2),(float)(-SQRT2));
+        right = new Vector2<Float>((float)(1-SQRT2),(float)(-SQRT2));
+        down = new Vector2<Float>((float)(1-SQRT2),(float)(1-SQRT2));
+        left = new Vector2<Float>((float)(-SQRT2),(float)(1-SQRT2));
+
+
+
+        ByteBuffer vbb = ByteBuffer.allocateDirect(vertices.length * 4);
+        vbb.order(ByteOrder.nativeOrder());
+        FloatBuffer mVertexBuffer = vbb.asFloatBuffer();
+        mVertexBuffer.put(vertices);
+        mVertexBuffer.position(0);
+
+        ByteBuffer ibb = ByteBuffer.allocateDirect(indices.length * 2);
+        ibb.order(ByteOrder.nativeOrder());
+        indicesBuffer = ibb.asShortBuffer();
+        indicesBuffer.put(indices);
+        indicesBuffer.position(0);
+
+    }
+
+    public void rotate(float angle)
+    {
+    }
+
+    public void draw(GL10 gl) {
+        // Counter-clockwise winding.
+        gl.glFrontFace(GL10.GL_CCW); // <a href="http://www.khronos.org/opengles/sdk/1.1/docs/man/glFrontFace.xml" style="text-decoration: underline">OpenGL docs</a>
+        // Enable face culling.
+        gl.glEnable(GL10.GL_CULL_FACE); // <a href="http://www.khronos.org/opengles/sdk/1.1/docs/man/glEnable.xml" style="text-decoration: underline">OpenGL docs</a>
+        // What faces to remove with the face culling.
+        gl.glCullFace(GL10.GL_BACK); // <a href="http://www.khronos.org/opengles/sdk/1.1/docs/man/glCullFace.xml" style="text-decoration: underline">OpenGL docs</a>
+
+        // Enabled the vertices buffer for writing and to be used during
+        // rendering.
+        gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);// <a href="http://www.khronos.org/opengles/sdk/1.1/docs/man/glEnableClientState.xml" style="text-decoration: underline">OpenGL docs.</a>
+        // Specifies the location and data format of an array of vertex
+        // coordinates to use when rendering.
+        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, // <a href="http://www.khronos.org/opengles/sdk/1.1/docs/man/glVertexPointer.xml" style="text-decoration: underline">OpenGL docs</a>
+                vertexBuffer);
+
+        gl.glDrawElements(GL10.GL_TRIANGLES, indices.length,// <a href="http://www.khronos.org/opengles/sdk/1.1/docs/man/glDrawElements.xml" style="text-decoration: underline">OpenGL docs</a>
+                GL10.GL_UNSIGNED_SHORT, indicesBuffer);
+
+        // Disable the vertices buffer.
+        gl.glDisableClientState(GL10.GL_VERTEX_ARRAY); // <a href="http://www.khronos.org/opengles/sdk/1.1/docs/man/glDisableClientState.xml" style="text-decoration: underline">OpenGL docs</a>
+        // Disable face culling.
+        gl.glDisable(GL10.GL_CULL_FACE); // <a href="http://www.khronos.org/opengles/sdk/1.1/docs/man/glDisable.xml" style="text-decoration: underline">OpenGL docs</a>
+    }
+
+
+
+
+    private short[] indices = {0,1,2,0,2,3};
+    private FloatBuffer vertexBuffer;
+    private ShortBuffer indicesBuffer;
+
+    private float vertices[] = {
+            -1.0f,  1.0f, 0.0f,  // 0, Top Left
+            -1.0f, -1.0f, 0.0f,  // 1, Bottom Left
+            1.0f, -1.0f, 0.0f,  // 2, Bottom Right
+            1.0f,  1.0f, 0.0f,  // 3, Top Right
+    };
+
+}*/
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 import java.util.Vector;
 
+import javax.microedition.khronos.opengles.GL10;
 
 public class Square extends  PhysiqueObject{
     // Our vertices.
@@ -69,7 +151,7 @@ public class Square extends  PhysiqueObject{
         colorBuffer.put(colors);
         colorBuffer.position(0);
 
-        shape.setAsBox(toMet(_size/2),toMet(_size/2));
+        shape.setAsBox(toMet(_size),toMet(_size));
         fixtureDef.shape = shape;
         fixture = body.createFixture(fixtureDef);
         setSize(_size);
@@ -93,24 +175,24 @@ public class Square extends  PhysiqueObject{
         {
             case DIRECTION_TOP:
                 targetX = originX;
-                targetY = originY + 0.5f;
+                targetY = originY + this.size;
                 break;
             case DIRECTION_RIGHT:
-                targetX = originX + 0.5f;
+                targetX = originX + this.size;
                 targetY = originY;
                 break;
             case DIRECTION_BOTTOM:
                 targetX = originX;
-                targetY = originY - 0.5f;
+                targetY = originY - this.size;
                 break;
             case DIRECTION_LEFT:
             default:
-                targetX = originX - 0.5f;
+                targetX = originX - this.size;
                 targetY = originY;
        }
        Square res = new Square(this.size, targetX, targetY);
-        res.joinFixtureList.add(res.body.createFixture(this.shape, 1.0f));
-        this.joinFixtureList.add(this.body.createFixture(this.shape, 1.0f));
+       // res.joinFixtureList.add(res.body.createFixture(this.shape, 1.0f));
+       // this.joinFixtureList.add(this.body.createFixture(this.shape, 1.0f));
 
         //DistanceJointDef jointDef = new DistanceJointDef();
         //jointDef.initialize(res.body, this.body, new Vec2(targetX, targetY), new Vec2(originX, originY));
