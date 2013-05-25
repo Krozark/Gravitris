@@ -9,5 +9,7 @@
     </string>
     <string name="featureToRelease" >Here, a tetris will appear ...
     </string>
+    <string name="buttonStartGame" >Start game !
+    </string>
 
 </resources>
