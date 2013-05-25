@@ -77,7 +77,8 @@ public class OpenGLRenderer implements Renderer {
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
-        sqrS = new SquareSet(0.5f, SquareSet.SQUARE_SET_C);
+        sqrS = new SquareSet();
+        sqrS.add(new SquareSet(0.5f));
 
         clock = new Clock();
     }

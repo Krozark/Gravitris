@@ -179,28 +179,28 @@ public class Square extends  PhysiqueObject{
         {
             case DIRECTION_TOP:
                 targetX = originX;
-                targetY = originY + this.size;
+                targetY = originY + this.size * 2;
                 break;
             case DIRECTION_RIGHT:
-                targetX = originX + this.size;
+                targetX = originX + this.size * 2;
                 targetY = originY;
                 break;
             case DIRECTION_BOTTOM:
                 targetX = originX;
-                targetY = originY - this.size;
+                targetY = originY - this.size * 2;
                 break;
             case DIRECTION_LEFT:
             default:
-                targetX = originX - this.size;
+                targetX = originX - this.size * 2;
                 targetY = originY;
        }
        Square res = new Square(this.size, targetX, targetY);
-       // res.joinFixtureList.add(res.body.createFixture(this.shape, 1.0f));
-       // this.joinFixtureList.add(this.body.createFixture(this.shape, 1.0f));
+       res.joinFixtureList.add(res.body.createFixture(this.shape, this.size));
+        this.joinFixtureList.add(this.body.createFixture(this.shape, this.size));
 
-        //DistanceJointDef jointDef = new DistanceJointDef();
-        //jointDef.initialize(res.body, this.body, new Vec2(targetX, targetY), new Vec2(originX, originY));
-        //jointDef.collideConnected = true;
+        DistanceJointDef jointDef = new DistanceJointDef();
+        jointDef.initialize(res.body, this.body, new Vec2(this.bottom_left.x, this.bottom_left.y), new Vec2(res.bottom_left.x, res.bottom_left.y));
+        jointDef.collideConnected = true;
 
         return res;
     }

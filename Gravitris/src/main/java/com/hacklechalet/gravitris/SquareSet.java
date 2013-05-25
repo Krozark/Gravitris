@@ -2,6 +2,7 @@ package com.hacklechalet.gravitris;
 
 import javax.microedition.khronos.opengles.GL10;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -10,15 +11,28 @@ import java.util.Set;
 public class SquareSet {
     protected Set<Square> set;
 
-    public final static int SQUARE_SET_T = 1;
-    public final static int SQUARE_SET_I = 2;
-    public final static int SQUARE_SET_L = 3;
-    public final static int SQUARE_SET_S = 4;
-    public final static int SQUARE_SET_C = 5;
+    public final static int SQUARE_SET_T = 0;
+    public final static int SQUARE_SET_I = 1;
+    public final static int SQUARE_SET_L = 2;
+    public final static int SQUARE_SET_S = 3;
+    public final static int SQUARE_SET_C = 4;
 
-    public SquareSet(float size, int type)
+    public SquareSet()
     {
         this.set = new HashSet<Square>();
+    }
+    public SquareSet(float size)
+    {
+        this(size, -1);
+    }
+    public SquareSet(float size, int type)
+    {
+        this();
+        if(type < 0 || type > 4)
+        {
+            Random rnd = new Random();
+            type = rnd.nextInt(4);
+        }
         Square primitive = new Square(size, 0, 0);
         this.set.add(primitive);
         switch(type)
@@ -55,6 +69,20 @@ public class SquareSet {
                 this.set.add(rightC.genNeighboor(Square.DIRECTION_BOTTOM));
         }
     }
+
+    public void add(Square square)
+    {
+        this.set.add(square);
+    }
+
+    public void add(SquareSet squareSet)
+    {
+        for(Square square : squareSet.set)
+        {
+            this.add(square);
+        }
+    }
+
 
     public void draw(GL10 gl)
     {
