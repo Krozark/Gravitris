@@ -29,6 +29,8 @@ public class OpenGLRenderer implements Renderer {
     private float mPreviousY;
     private final float TOUCH_SCALE_FACTOR = 0.6f;
 
+    Square a = new Square();
+
     public void MyRenderer(Context context) {
         mContext = context;
     }
@@ -56,16 +58,16 @@ public class OpenGLRenderer implements Renderer {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
-        //triangle
-        gl.glTranslatef(0.0f, 0.0f, -3.0f);
-        gl.glRotatef(mAngleX, 1, 0, 0);
-        gl.glRotatef(mAngleY, 0, 1, 0);
-        gl.glRotatef(mAngleZ, 0, 0, 1);
-        gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
-        // Draw all lines
-        gl.glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
 
-        gl.glDrawElements(GL10.GL_LINES, mNumOfTriangleBorderIndices, GL10.GL_UNSIGNED_SHORT, mTriangleBorderIndicesBuffer);
+        gl.glTranslatef(0.0f, 0.0f, -4.0f);
+       // gl.glRotatef(mAngleX, 1, 0, 0);
+       // gl.glRotatef(mAngleY, 0, 1, 0);
+       // gl.glRotatef(mAngleZ, 0, 0, 1);
+       // gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
+       // // Draw all lines
+        gl.glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
+        //a.setPosition(0,0);
+        a.draw(gl);
 
     }
 
@@ -113,6 +115,7 @@ public class OpenGLRenderer implements Renderer {
         mTriangleBorderIndicesBuffer = tbibb.asShortBuffer();
         mTriangleBorderIndicesBuffer.put(trigborderindexlist);
         mTriangleBorderIndicesBuffer.position(0);
+
     }
 
     public boolean onTouchEvent(MotionEvent e) {
