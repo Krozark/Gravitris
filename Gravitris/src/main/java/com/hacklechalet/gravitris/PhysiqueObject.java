@@ -23,7 +23,7 @@ public class PhysiqueObject {
         shape = new PolygonShape();
 
         fixtureDef.density = 1.0f;
-        fixtureDef.friction = 0.8f;
+        fixtureDef.friction = 0.4f;
         fixtureDef.restitution = 0.5f;
     }
 

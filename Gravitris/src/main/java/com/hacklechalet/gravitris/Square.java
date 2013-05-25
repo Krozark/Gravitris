@@ -69,7 +69,7 @@ public class Square extends  PhysiqueObject{
         colorBuffer.position(0);
 
         setSize(_size);
-        shape.setAsBox(toMet(size/2),toMet(size/2));
+        shape.setAsBox(toMet(size),toMet(size));
         fixtureDef.shape = shape;
         fixture = body.createFixture(fixtureDef);
         //majPosition();
@@ -113,13 +113,13 @@ public class Square extends  PhysiqueObject{
                 targetX = originX - this.size * 2;
                 targetY = originY;
        }
-       Square res = new Square(this.size, targetX, targetY);
-       res.joinFixtureList.add(res.body.createFixture(this.shape, this.size));
+        Square res = new Square(this.size, targetX, targetY);
+        /*res.joinFixtureList.add(res.body.createFixture(this.shape, this.size));
         this.joinFixtureList.add(this.body.createFixture(this.shape, this.size));
 
         DistanceJointDef jointDef = new DistanceJointDef();
         jointDef.initialize(res.body, this.body, new Vec2(this.bottom_left.x, this.bottom_left.y), new Vec2(res.bottom_left.x, res.bottom_left.y));
-        jointDef.collideConnected = true;
+        jointDef.collideConnected = true;*/
 
         return res;
     }
@@ -169,6 +169,7 @@ public class Square extends  PhysiqueObject{
 
     public void draw(GL10 gl) {
         next();
+        Log.d("Gravitris",""+top_left.x+" "+top_left.y);
 
         float matrixVertices[] = {
                 top_left.x,  top_left.y, 0.0f,  // 0, Top Left

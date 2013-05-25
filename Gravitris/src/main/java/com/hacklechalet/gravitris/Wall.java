@@ -51,10 +51,10 @@ public class Wall  extends  PhysiqueObject{
     {
         super(posx,posy, BodyType.STATIC);
 
-        top_left = new Vector2<Float>(posx,posy);
-        top_right = new Vector2<Float>(posx + (float)1*x, posy);
-        bottom_left = new Vector2<Float>(posx, posy + (float)1*y);
-        bottom_right = new Vector2<Float>(posx + (float)1*x, posy + (float)1*y);
+        top_left = new Vector2<Float>(0f,0f);
+        top_right = new Vector2<Float>((float)1*x,0f);
+        bottom_left = new Vector2<Float>(0f, (float)1*y);
+        bottom_right = new Vector2<Float>((float)1*x,(float)1*y);
 
         // short is 2 bytes, therefore we multiply the number if
         // vertices with 2.
