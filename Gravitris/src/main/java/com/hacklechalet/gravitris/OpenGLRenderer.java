@@ -42,6 +42,8 @@ public class OpenGLRenderer implements Renderer {
 
     private SquareSet sqrS;
 
+    private Wall wall;
+
     long elapsedTime;
     Clock clock;
 
@@ -86,6 +88,8 @@ public class OpenGLRenderer implements Renderer {
         sqrS = new SquareSet();
         sqrS.add(new SquareSet(0.5f));
 
+        wall =new Wall(1,3,0,0);
+
         clock = new Clock();
     }
 
@@ -107,6 +111,7 @@ public class OpenGLRenderer implements Renderer {
 
         //Log.d("Gravitris", ""+ elapsedSec);
         //sqr.move((float)(elapsedSec*gravity[0]),(float)(elapsedSec*gravity[1]));
+        wall.draw(gl);
         sqrS.draw(gl);
     }
 

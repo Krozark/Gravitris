@@ -1,5 +1,5 @@
 package com.hacklechalet.gravitris;
-import android.util.Log;
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
@@ -10,12 +10,13 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-
 import java.util.Vector;
 
-public class Square extends  PhysiqueObject{
+/**
+ * Created by krozark on 25/05/13.
+ */
+public class Wall  extends  PhysiqueObject{
     // Our vertices.
-    private Vector2<Float> center;
     private Vector2<Float> top_left; //0,0
     private Vector2<Float> top_right;//1,0
     private Vector2<Float> bottom_left;//1,1
@@ -43,16 +44,17 @@ public class Square extends  PhysiqueObject{
 
     private Vector<Fixture> joinFixtureList;
 
-    private float size =1;
+    private float X;
+    private float Y;
 
-    public Square(float _size,float posx,float posy)
+    public Wall(float x,float y,float posx,float posy)
     {
-        super(posx,posy,BodyType.DYNAMIC);
+        super(posx,posy, BodyType.STATIC);
 
         top_left = new Vector2<Float>(posx,posy);
-        top_right = new Vector2<Float>(posx + (float)1*size, posy);
-        bottom_left = new Vector2<Float>(posx, posy + (float)1*size);
-        bottom_right = new Vector2<Float>(posx + (float)1*size, posy + (float)1*size);
+        top_right = new Vector2<Float>(posx + (float)1*x, posy);
+        bottom_left = new Vector2<Float>(posx, posy + (float)1*y);
+        bottom_right = new Vector2<Float>(posx + (float)1*x, posy + (float)1*y);
 
         // short is 2 bytes, therefore we multiply the number if
         // vertices with 2.
@@ -68,8 +70,8 @@ public class Square extends  PhysiqueObject{
         colorBuffer.put(colors);
         colorBuffer.position(0);
 
-        setSize(_size);
-        shape.setAsBox(toMet(size/2),toMet(size/2));
+        setSize(x,y);
+        shape.setAsBox(toMet(x/2),toMet(y/2));
         fixtureDef.shape = shape;
         fixture = body.createFixture(fixtureDef);
         //majPosition();
@@ -78,66 +80,19 @@ public class Square extends  PhysiqueObject{
     }
 
 
-    /**
-     * Place a square next to another one
-     * @param position Position (1: Top, 2: Right, 3: Bottom, 4: Left)
-     */
-    public Square genNeighboor(int position)
-    {
-        /*
-        Vector2<Float> originPosition = this.getPosition();
-        float originX = originPosition.x;
-        float originY = originPosition.y;
-        */
-        float originX = this.top_left.x;
-        float originY = this.top_left.y;
-        float targetX;
-        float targetY;
-
-        switch(position)
-        {
-            case DIRECTION_TOP:
-                targetX = originX;
-                targetY = originY + this.size * 2;
-                break;
-            case DIRECTION_RIGHT:
-                targetX = originX + this.size * 2;
-                targetY = originY;
-                break;
-            case DIRECTION_BOTTOM:
-                targetX = originX;
-                targetY = originY - this.size * 2;
-                break;
-            case DIRECTION_LEFT:
-            default:
-                targetX = originX - this.size * 2;
-                targetY = originY;
-       }
-        Square res = new Square(this.size, targetX, targetY);
-        res.joinFixtureList.add(res.body.createFixture(this.shape, this.size));
-        this.joinFixtureList.add(this.body.createFixture(this.shape, this.size));
-
-        DistanceJointDef jointDef = new DistanceJointDef();
-        jointDef.initialize(res.body, this.body, new Vec2(this.bottom_left.x, this.bottom_left.y), new Vec2(res.bottom_left.x, res.bottom_left.y));
-        jointDef.collideConnected = true;
-
-        return res;
-    }
-
-
     private void setPosition(float x,float y)
     {
-        top_left.x = x*size;
-        top_left.y = y*size;
+        top_left.x = x*X;
+        top_left.y = y*Y;
 
-        top_right.x = x*size+size;
-        top_right.y = y*size;
+        top_right.x = x*X+X;
+        top_right.y = y*Y;
 
-        bottom_left.x = x*size;
-        bottom_left.y = y*size+size;
+        bottom_left.x = x*X;
+        bottom_left.y = y*Y+Y;
 
-        bottom_right.x = x*size+size;
-        bottom_right.y = y*size+size;
+        bottom_right.x = x*X+X;
+        bottom_right.y = y*Y+Y;
     }
 
     private void majPosition()
@@ -153,12 +108,13 @@ public class Square extends  PhysiqueObject{
 
     public Vector2<Float> getPosition()
     {
-        return new Vector2<Float>(top_left.x+size,top_left.y+size);
+        return new Vector2<Float>(top_left.x+X,top_left.y+Y);
     }
 
-    private void setSize(float _size)
+    private void setSize(float x,float y)
     {
-        size = _size;
+        X=x;
+        Y=y;
     }
 
     private void next()
