@@ -114,12 +114,7 @@ public class Square extends  PhysiqueObject{
                 targetY = originY;
        }
         Square res = new Square(this.size, targetX, targetY);
-        /*res.joinFixtureList.add(res.body.createFixture(this.shape, this.size));
-        this.joinFixtureList.add(this.body.createFixture(this.shape, this.size));
 
-        DistanceJointDef jointDef = new DistanceJointDef();
-        jointDef.initialize(res.body, this.body, new Vec2(this.bottom_left.x, this.bottom_left.y), new Vec2(res.bottom_left.x, res.bottom_left.y));
-        jointDef.collideConnected = true;*/
 
         return res;
     }
