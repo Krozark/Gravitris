@@ -9,6 +9,7 @@ import javax.microedition.khronos.opengles.GL10;
 import android.content.Context;
 import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
+import android.util.Log;
 import android.view.MotionEvent;
 
 import java.nio.ByteBuffer;
@@ -69,8 +70,7 @@ public class OpenGLRenderer implements Renderer {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
 
-        sqr = new Square();
-        sqr.setSize(0.5f);
+        sqr = new Square(0.5f);
         clock = new Clock();
     }
 
@@ -86,8 +86,10 @@ public class OpenGLRenderer implements Renderer {
        // gl.glRotatef(mAngleZ, 0, 0, 1);
        // gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
        // // Draw all lines
-        elapsedTime = clock.reset()/(long)1000;
-        sqr.move(elapsedTime*gravity[1], elapsedTime*gravity[1]);
+        elapsedTime = clock.reset();
+        double elapsedSec = -elapsedTime/1000.0;
+        //Log.d("Gravitris", ""+ elapsedSec);
+        sqr.move((float)(elapsedSec*gravity[0]),(float)(elapsedSec*gravity[1]));
         sqr.draw(gl);
     }
 

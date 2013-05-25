@@ -114,7 +114,7 @@ public class Square {
 
     private float size =1;
 
-    public Square() {
+    public Square(float _size) {
         top_left = new Vector2<Float>((float)0,(float)1);
         top_right = new Vector2<Float>((float)1,(float)1);
         bottom_left = new Vector2<Float>((float)0,(float)0);
@@ -133,6 +133,9 @@ public class Square {
         colorBuffer = cbb.asFloatBuffer();
         colorBuffer.put(colors);
         colorBuffer.position(0);
+
+        setSize(_size);
+        setPosition(0,0);
     }
 
     public void move(float x,float y)

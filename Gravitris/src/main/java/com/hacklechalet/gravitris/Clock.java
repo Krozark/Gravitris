@@ -27,7 +27,7 @@ public class Clock{
     public long reset()
     {
         long timeActu = System.currentTimeMillis();
-        long res =  - timeActu - this.timeStart;
+        long res =  timeActu - this.timeStart;
 
         this.timeStart = timeActu;
 
