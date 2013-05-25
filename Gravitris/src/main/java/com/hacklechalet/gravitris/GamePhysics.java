@@ -13,12 +13,12 @@ public class GamePhysics {
 
     public GamePhysics()
     {
-        Vec2 gravity = new Vec2(0.f,-9.8f);
+        Vec2 gravity = new Vec2(0.f,9.8f);
         world = new World(gravity);
     }
 
-    public void next()
+    public void next(float timeStep)
     {
-        world.step(1f/60f,velocityIter,positionIter);
+        world.step(timeStep,velocityIter,positionIter);
     }
 }

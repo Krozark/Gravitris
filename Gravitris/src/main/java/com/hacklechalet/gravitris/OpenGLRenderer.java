@@ -11,6 +11,7 @@ import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 import android.view.MotionEvent;
+import org.jbox2d.common.Vec2;
 
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
@@ -41,6 +42,8 @@ public class OpenGLRenderer implements Renderer {
     long elapsedTime;
     Clock clock;
 
+    private GamePhysics game;
+
 
     public void MyRenderer(Context context) {
         mContext = context;
@@ -51,6 +54,9 @@ public class OpenGLRenderer implements Renderer {
         this.width = width;
         this.height = height;
         this.gravity = grav;
+
+        game = new GamePhysics();
+        PhysiqueObject.world = game.world;
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -70,7 +76,7 @@ public class OpenGLRenderer implements Renderer {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
 
-        sqr = new Square(0.5f);
+        sqr = new Square(0.5f,0,0);
         clock = new Clock();
     }
 
@@ -79,17 +85,18 @@ public class OpenGLRenderer implements Renderer {
         gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
         gl.glMatrixMode(GL10.GL_MODELVIEW);
         gl.glLoadIdentity();
+        gl.glTranslatef(0,0, -4.0f);
 
-        gl.glTranslatef(0.0f, 0.0f, -4.0f);
-       // gl.glRotatef(mAngleX, 1, 0, 0);
-       // gl.glRotatef(mAngleY, 0, 1, 0);
-       // gl.glRotatef(mAngleZ, 0, 0, 1);
-       // gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
-       // // Draw all lines
+        game.world.setGravity(new Vec2(-gravity[0],-gravity[1]));
         elapsedTime = clock.reset();
-        double elapsedSec = -elapsedTime/1000.0;
+        double elapsedSec = elapsedTime/1000.0;
+
+        game.next((float)elapsedSec);
+
+        Log.d("Gravitris", "" + width + " " + height);
+
         //Log.d("Gravitris", ""+ elapsedSec);
-        sqr.move((float)(elapsedSec*gravity[0]),(float)(elapsedSec*gravity[1]));
+        //sqr.move((float)(elapsedSec*gravity[0]),(float)(elapsedSec*gravity[1]));
         sqr.draw(gl);
     }
 
