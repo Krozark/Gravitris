@@ -11,5 +11,12 @@
     </string>
     <string name="buttonStartGame" >Start game !
     </string>
+    <string name="x_textView">X : </string>
+    <string name="y_textView">Y : </string>
+    <string name="z_textView">Z : </string>
+    <string name="xValue_textView">value x</string>
+    <string name="yValue_textView">value y</string>
+    <string name="zValue_textView">value z</string>
+
 
 </resources>

@@ -1,25 +1,33 @@
 package com.hacklechalet.gravitris;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.view.*;
 import android.opengl.GLSurfaceView;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener {
 
+    protected boolean gameStarted = false;
+    protected SensorManager sensorManager;
+    protected Sensor sensor;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Window win = this.getWindow();
-        this.requestWindowFeature(win.FEATURE_NO_TITLE);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
+        this.sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
+        this.sensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
+        this.sensorManager.registerListener(this, sensor, 1000/60);
         this.setContentView(R.layout.activity_main);
 
         //this.startGame();
@@ -32,11 +40,28 @@ public class MainActivity extends Activity {
         return true;
     }
 
-    public void startGame(View v)
+    public void onSensorChanged(SensorEvent event)
     {
-        GLSurfaceView view = new GLSurfaceView(this);
-        view.setRenderer(new OpenGLRenderer());
-        this.setContentView(view);
+        if (event.sensor.getType() == Sensor.TYPE_GRAVITY)
+        {
+            TextView xText = (TextView)findViewById(R.id.textView_valueX);
+            TextView yText = (TextView)findViewById(R.id.textView_valueY);
+            TextView zText = (TextView)findViewById(R.id.textView_valueZ);
+            xText.setText(String.valueOf(event.values[0]));
+            yText.setText(String.valueOf(event.values[1]));
+            zText.setText(String.valueOf(event.values[2]));
+        }
+    }
+    public void goToGameActivity(View v)
+    {
+        Intent intentActivityGame;
+
+        intentActivityGame = new Intent(MainActivity.this, GameActivity.class);
+        this.startActivityForResult(intentActivityGame, 0);
     }
 
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+    }
 }
