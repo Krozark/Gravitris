@@ -1,6 +1,9 @@
 package com.hacklechalet.gravitris;
+import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.Fixture;
+import org.jbox2d.dynamics.joints.DistanceJointDef;
 
 import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
@@ -89,6 +92,7 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.Vector;
 
 import javax.microedition.khronos.opengles.GL10;
 
@@ -102,6 +106,11 @@ public class Square extends  PhysiqueObject{
     // The order we like to connect them.
     private short[] indices = { 0, 1, 2, 0, 2, 3 };
 
+    public final static int DIRECTION_TOP = 1;
+    public final static int DIRECTION_RIGHT = 2;
+    public final static int DIRECTION_BOTTOM = 3;
+    public final static int DIRECTION_LEFT = 4;
+
     float[] colors = {
             1f, 0f, 0f, 1f, // vertex 0 red
             0f, 1f, 0f, 1f, // vertex 1 green
@@ -114,6 +123,8 @@ public class Square extends  PhysiqueObject{
     // Our index buffer.
     private ShortBuffer indexBuffer;
     private FloatBuffer colorBuffer;
+
+    private Vector<Fixture> joinFixtureList;
 
     private float size =1;
 
@@ -144,7 +155,54 @@ public class Square extends  PhysiqueObject{
         fixture = body.createFixture(fixtureDef);
         setSize(_size);
         setPosition(0,0);
+
+        joinFixtureList = new Vector<Fixture>();
     }
+
+    /**
+     * Place a square next to another one
+     * @param origin   Origin square
+     * @param position Position (1: Top, 2: Right, 3: Bottom, 4: Left)
+     */
+    public Square(Square origin, int position)
+    {
+        this(origin.size);
+        Vector2<Float> originPosition = origin.getPosition();
+        float originX = originPosition.x;
+        float originY = originPosition.y;
+        float targetX;
+        float targetY;
+
+        switch(position)
+        {
+            case DIRECTION_TOP:
+                targetX = originX;
+                targetY = originY + 0.5f;
+                break;
+            case DIRECTION_RIGHT:
+                targetX = originX + 0.5f;
+                targetY = originY;
+                break;
+            case DIRECTION_BOTTOM:
+                targetX = originX;
+                targetY = originY - 0.5f;
+                break;
+            case DIRECTION_LEFT:
+            default:
+                targetX = originX - 0.5f;
+                targetY = originY;
+       }
+        this.setPosition(targetX, targetY);
+        this.joinFixtureList.add(this.body.createFixture(origin.shape, 1.0f));
+        origin.joinFixtureList.add(origin.body.createFixture(this.shape, 1.0f));
+
+        DistanceJointDef jointDef = new DistanceJointDef();
+        jointDef.initialize(this.body, origin.body, new Vec2(targetX, targetY), new Vec2(originX, originY));
+        jointDef.collideConnected = true;
+
+
+    }
+
 
     public void move(float x,float y)
     {
