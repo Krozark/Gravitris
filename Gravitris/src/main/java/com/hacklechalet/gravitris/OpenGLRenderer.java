@@ -4,6 +4,7 @@ package com.hacklechalet.gravitris;
  * Created by krozark on 25/05/13.
  */
 import javax.microedition.khronos.egl.EGLConfig;
+import javax.microedition.khronos.opengles.GL;
 import javax.microedition.khronos.opengles.GL10;
 
 import android.content.Context;
@@ -18,6 +19,7 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
+import static android.opengl.GLU.gluOrtho2D;
 import static android.util.FloatMath.sin;
 
 public class OpenGLRenderer implements Renderer {
@@ -59,11 +61,15 @@ public class OpenGLRenderer implements Renderer {
 
         game = new GamePhysics();
         PhysiqueObject.world = game.world;
+
+
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         // Set the background color to black ( rgba ).
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
+        float lowerX = -25.0f, upperX = 25.0f, lowerY = -5.0f, upperY = 25.0f;
+        gluOrtho2D(gl, lowerX, upperX, lowerY, upperY);
         // Enable Smooth Shading, default not really needed.
         //gl.glShadeModel(GL10.GL_SMOOTH);
         // Depth buffer setup.

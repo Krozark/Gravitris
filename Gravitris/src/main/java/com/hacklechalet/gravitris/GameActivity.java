@@ -8,6 +8,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
+import android.opengl.GLU;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
@@ -36,6 +37,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         this.sensorManager.registerListener(this, sensor, GameActivity.REFRESH_RATE);
 
         this.startGame();
+
     }
 
     @Override
@@ -65,6 +67,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         Display display = getWindowManager().getDefaultDisplay();
         int width = display.getWidth();  // deprecated
         int height = display.getHeight();  // deprecated
+
 
         GLSurfaceView view = new GLSurfaceView(this);
         OpenGLRenderer openGlRender = new OpenGLRenderer(width,height,this.gravityValues);
@@ -96,7 +99,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
         textViewScore.setWidth((width-10) / 3);
         textViewResScore.setWidth((width-10) / 3);
-        buttonPause.setWidth((width-10) / 3);
+        buttonPause.setWidth((width - 10) / 3);
 
         row.addView(textViewScore, 0);
         row.addView(textViewResScore, 1);
