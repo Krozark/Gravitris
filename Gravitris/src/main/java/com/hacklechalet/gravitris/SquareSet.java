@@ -83,6 +83,19 @@ public class SquareSet {
         }
     }
 
+    public void remove(Square square)
+    {
+        this.set.remove(square);
+    }
+
+    public void remove(SquareSet squareSet)
+    {
+        for(Square square : squareSet.set)
+        {
+            this.remove(square);
+        }
+    }
+
 
     public void draw(GL10 gl)
     {
