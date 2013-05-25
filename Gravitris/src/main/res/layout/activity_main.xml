@@ -17,4 +17,48 @@
             android:onClick="startGame" android:visibility="visible" android:clickable="true" android:enabled="true"
             android:layout_alignParentRight="true" android:layout_alignParentLeft="true" android:minWidth="10dp"
             android:minHeight="10dp" android:layout_alignParentTop="true"/>
+    <GridLayout
+            android:orientation="horizontal"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" android:layout_below="@+id/button"
+            android:layout_alignLeft="@+id/button" android:layout_marginTop="11dp" android:rowCount="4"
+            android:layout_centerVertical="true">
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/x_textView"
+                android:id="@+id/textView" android:layout_gravity="left|center_vertical" android:layout_row="0"
+                android:layout_column="0"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/y_textView"
+                android:id="@+id/textView3" android:layout_row="1" android:layout_column="0"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/yValue_textView"
+                android:id="@+id/textView_valueY" android:layout_row="1" android:layout_column="1"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/z_textView"
+                android:id="@+id/textView2" android:layout_row="3" android:layout_column="0"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/xValue_textView"
+                android:id="@+id/textView_valueX" android:layout_row="0" android:layout_column="1"/>
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/zValue_textView"
+                android:id="@+id/textView_valueZ" android:layout_row="3" android:layout_column="1"/>
+    </GridLayout>
 </RelativeLayout>
