@@ -40,6 +40,7 @@ public class OpenGLRenderer implements Renderer {
 
     private Square sqr;
     private Square sqr2;
+
     long elapsedTime;
     Clock clock;
 
@@ -79,6 +80,7 @@ public class OpenGLRenderer implements Renderer {
 
         sqr = new Square(0.5f,0,0);
         sqr2 = sqr.genNeighboor(Square.DIRECTION_RIGHT);
+
         clock = new Clock();
     }
 
