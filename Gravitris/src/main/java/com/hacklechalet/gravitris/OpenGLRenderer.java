@@ -29,8 +29,6 @@ public class OpenGLRenderer implements Renderer {
     private float mPreviousY;
     private final float TOUCH_SCALE_FACTOR = 0.6f;
 
-    Square a = new Square();
-
     public void MyRenderer(Context context) {
         mContext = context;
     }
@@ -66,9 +64,24 @@ public class OpenGLRenderer implements Renderer {
        // gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
        // // Draw all lines
         gl.glColor4f(0.0f, 1.0f, 0.0f, 1.0f);
-        //a.setPosition(0,0);
+        Square a = new Square();
+        a.setPosition(0,0);
         a.draw(gl);
 
+        gl.glColor4f(1.0f, 0.0f, 0.0f, 1.0f);
+        a = new Square();
+        a.setPosition(1,1);
+        a.draw(gl);
+
+        gl.glColor4f(0.0f, 0.0f, 1.0f, 1.0f);
+        a = new Square();
+        a.setPosition(1.5f,1.5f);
+        a.draw(gl);
+
+        gl.glColor4f(1.0f, 1.0f, 0.0f, 1.0f);
+        a = new Square();
+        a.setPosition(2,2);
+        a.draw(gl);
     }
 
 

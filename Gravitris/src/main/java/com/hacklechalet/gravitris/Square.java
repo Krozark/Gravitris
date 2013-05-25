@@ -96,7 +96,6 @@ public class Square {
     private Vector2<Float> top_right;//1,0
     private Vector2<Float> bottom_left;//1,1
     private Vector2<Float> bottom_right;//0,1
-    final float SQRT2 =  (float)sqrt(2.0);
     // The order we like to connect them.
     private short[] indices = { 0, 1, 2, 0, 2, 3 };
 
@@ -123,7 +122,7 @@ public class Square {
 
     public void move(float x,float y)
     {
-        top_left.x += x;
+        top_left.x+=x;
         top_left.y+=y;
 
         top_right.x+=x;
@@ -138,17 +137,17 @@ public class Square {
 
     public void setPosition(float x,float y)
     {
-        top_left.x = x-SQRT2;
-        top_left.y = y-SQRT2;
+        top_left.x = x-0.5f;
+        top_left.y = y+0.5f;
 
-        top_right.x = x+SQRT2;
-        top_right.y = y-SQRT2;
+        top_right.x = x+0.5f;
+        top_right.y = y+0.5f;
 
-        bottom_left.x = x-SQRT2;
-        bottom_left.y = y+SQRT2;
+        bottom_left.x = x-0.5f;
+        bottom_left.y = y-0.5f;
 
-        bottom_right.x = x+SQRT2;
-        bottom_right.y = y+SQRT2;
+        bottom_right.x = x+0.5f;
+        bottom_right.y = y-0.5f;
     }
 
     public void draw(GL10 gl) {
