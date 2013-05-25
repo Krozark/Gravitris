@@ -40,18 +40,6 @@ public class MainActivity extends Activity implements SensorEventListener {
         return true;
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event)
-    {
-        if (gameStarted && keyCode == KeyEvent.KEYCODE_BACK)
-        {
-            //this.moveTaskToBack(true);
-            this.setContentView(R.layout.activity_main);
-            gameStarted = false;
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
     public void onSensorChanged(SensorEvent event)
     {
         if (event.sensor.getType() == Sensor.TYPE_GRAVITY)
@@ -64,12 +52,12 @@ public class MainActivity extends Activity implements SensorEventListener {
             zText.setText(String.valueOf(event.values[2]));
         }
     }
-    public void startGame(View v)
+    public void goToGameActivity(View v)
     {
-        GLSurfaceView view = new GLSurfaceView(this);
-        view.setRenderer(new OpenGLRenderer());
-        this.setContentView(view);
-        gameStarted = true;
+        Intent intentActivityGame;
+
+        intentActivityGame = new Intent(MainActivity.this, GameActivity.class);
+        this.startActivityForResult(intentActivityGame, 0);
     }
 
     @Override
