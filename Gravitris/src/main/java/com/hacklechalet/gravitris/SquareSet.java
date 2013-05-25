@@ -16,6 +16,7 @@ public class SquareSet {
     public final static int SQUARE_SET_L = 2;
     public final static int SQUARE_SET_S = 3;
     public final static int SQUARE_SET_C = 4;
+    public final static int SQUARE_SET_L2 = 5;
 
     public SquareSet()
     {
@@ -28,10 +29,10 @@ public class SquareSet {
     public SquareSet(float size, int type)
     {
         this();
-        if(type < 0 || type > 4)
+        if(type < 0 || type > 5)
         {
             Random rnd = new Random();
-            type = rnd.nextInt(4);
+            type = rnd.nextInt(5);
         }
         Square primitive = new Square(size, 0, 0);
         this.set.add(primitive);
@@ -53,6 +54,12 @@ public class SquareSet {
                 this.set.add(right);
                 this.set.add(right.genNeighboor(Square.DIRECTION_RIGHT));
                 this.set.add(primitive.genNeighboor(Square.DIRECTION_BOTTOM));
+                break;
+            case SQUARE_SET_L2:
+                Square right2 = primitive.genNeighboor(Square.DIRECTION_RIGHT);
+                this.set.add(right2);
+                this.set.add(right2.genNeighboor(Square.DIRECTION_RIGHT));
+                this.set.add(primitive.genNeighboor(Square.DIRECTION_TOP));
                 break;
             case SQUARE_SET_S:
                 Square rightS = primitive.genNeighboor(Square.DIRECTION_RIGHT);

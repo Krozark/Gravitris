@@ -34,9 +34,12 @@ public class OpenGLRenderer implements Renderer {
     private float mPreviousX;
     private float mPreviousY;
     private final float TOUCH_SCALE_FACTOR = 0.6f;
+    private  final long TIME_NEXT_SQUARESET = 1000*5;
 
     private int width;
     private int height;
+
+    private long nextGen;
 
     private float[] gravity; //x,y,z
 
@@ -62,6 +65,7 @@ public class OpenGLRenderer implements Renderer {
         this.width = width;
         this.height = height;
         this.gravity = grav;
+        this.nextGen = 0;
 
         game = new GamePhysics();
         PhysiqueObject.world = game.world;
@@ -114,10 +118,20 @@ public class OpenGLRenderer implements Renderer {
 
         game.world.setGravity(new Vec2(-gravity[0],-gravity[1]));
         elapsedTime = clock.reset();
+
         double elapsedSec = elapsedTime/1000.0;
 
         if(!pause)
+        {
+            this.nextGen += elapsedTime;
+
+            if(this.nextGen > TIME_NEXT_SQUARESET)
+            {
+                sqrS.add(new SquareSet(0.5f));
+                this.nextGen = 0;
+            }
             game.next((float)elapsedSec);
+        }
 
         sqrS.draw(gl);
         sqr.draw(gl);
