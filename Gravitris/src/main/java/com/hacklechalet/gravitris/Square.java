@@ -92,7 +92,7 @@ import java.nio.ShortBuffer;
 
 import javax.microedition.khronos.opengles.GL10;
 
-public class Square {
+public class Square extends  PhysiqueObject{
     // Our vertices.
     private Vector2<Float> center;
     private Vector2<Float> top_left; //0,0
@@ -118,6 +118,8 @@ public class Square {
     private float size =1;
 
     public Square(float _size) {
+        super(0,0,BodyType.DYNAMIC);
+
         top_left = new Vector2<Float>((float)0,(float)1);
         top_right = new Vector2<Float>((float)1,(float)1);
         bottom_left = new Vector2<Float>((float)0,(float)0);
@@ -137,6 +139,9 @@ public class Square {
         colorBuffer.put(colors);
         colorBuffer.position(0);
 
+        shape.setAsBox(toMet(_size),toMet(_size));
+        fixtureDef.shape = shape;
+        fixture = body.createFixture(fixtureDef);
         setSize(_size);
         setPosition(0,0);
     }
@@ -182,7 +187,7 @@ public class Square {
         return new Vector2<Float>(top_left.x+ratio,top_left.y-ratio);
     }
 
-    public void setSize(float _size)
+    private void setSize(float _size)
     {
         size = _size;
     }

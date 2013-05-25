@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_gravitris-gravitris" default="compile.module.gravitris-gravitris">
+  <dirname property="module.gravitris-gravitris.basedir" file="${ant.file.module_gravitris-gravitris}"/>
+  
+  <property name="module.jdk.home.gravitris-gravitris" value="${jdk.home.android_4.2.2}"/>
+  <property name="module.jdk.bin.gravitris-gravitris" value="${jdk.bin.android_4.2.2}"/>
+  <property name="module.jdk.classpath.gravitris-gravitris" value="jdk.classpath.android_4.2.2"/>
+  
+  <property name="compiler.args.gravitris-gravitris" value="${compiler.args}"/>
+  
+  <property name="gravitris-gravitris.output.dir" value="${module.gravitris-gravitris.basedir}/build/classes/production/Gravitris-Gravitris"/>
+  <property name="gravitris-gravitris.testoutput.dir" value="${module.gravitris-gravitris.basedir}/build/classes/test/Gravitris-Gravitris"/>
+  
+  <path id="gravitris-gravitris.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="gravitris-gravitris.module.production.classpath">
+    <path refid="${module.jdk.classpath.gravitris-gravitris}"/>
+    <path refid="library.android-support-v4.classpath"/>
+    <pathelement location="${jbox2d-library.output.dir}"/>
+  </path>
+  
+  <path id="gravitris-gravitris.runtime.production.module.classpath">
+    <pathelement location="${gravitris-gravitris.output.dir}"/>
+    <path refid="library.android-support-v4.classpath"/>
+    <path refid="jbox2d-library.runtime.production.module.classpath"/>
+  </path>
+  
+  <path id="gravitris-gravitris.module.classpath">
+    <path refid="${module.jdk.classpath.gravitris-gravitris}"/>
+    <pathelement location="${gravitris-gravitris.output.dir}"/>
+    <path refid="library.android-support-v4.classpath"/>
+    <pathelement location="${jbox2d-library.testoutput.dir}"/>
+    <pathelement location="${jbox2d-library.output.dir}"/>
+  </path>
+  
+  <path id="gravitris-gravitris.runtime.module.classpath">
+    <pathelement location="${gravitris-gravitris.testoutput.dir}"/>
+    <pathelement location="${gravitris-gravitris.output.dir}"/>
+    <path refid="library.android-support-v4.classpath"/>
+    <path refid="jbox2d-library.runtime.module.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.gravitris-gravitris">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.gravitris-gravitris">
+    <patternset refid="excluded.from.module.gravitris-gravitris"/>
+  </patternset>
+  
+  <path id="gravitris-gravitris.module.sourcepath">
+    <dirset dir="${module.gravitris-gravitris.basedir}/Gravitris">
+      <include name="build/source/r/debug"/>
+      <include name="build/source/aidl/debug"/>
+      <include name="build/source/rs/debug"/>
+      <include name="build/source/buildConfig/debug"/>
+      <include name="build/res/rs/debug"/>
+      <include name="src/main/java"/>
+      <include name="src/main/res"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.gravitris-gravitris" depends="compile.module.gravitris-gravitris.production,compile.module.gravitris-gravitris.tests" description="Compile module Gravitris-Gravitris"/>
+  
+  <target name="compile.module.gravitris-gravitris.production" depends="register.custom.compilers,compile.module.jbox2d-library" description="Compile module Gravitris-Gravitris; production classes">
+    <mkdir dir="${gravitris-gravitris.output.dir}"/>
+    <javac2 destdir="${gravitris-gravitris.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.gravitris-gravitris}/javac">
+      <compilerarg line="${compiler.args.gravitris-gravitris}"/>
+      <bootclasspath refid="gravitris-gravitris.module.bootclasspath"/>
+      <classpath refid="gravitris-gravitris.module.production.classpath"/>
+      <src refid="gravitris-gravitris.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.gravitris-gravitris"/>
+    </javac2>
+    
+    <copy todir="${gravitris-gravitris.output.dir}">
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/build/source/r/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/build/source/aidl/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/build/source/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/build/source/buildConfig/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/build/res/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/src/main/res">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.gravitris-gravitris.tests" depends="register.custom.compilers,compile.module.gravitris-gravitris.production" description="compile module Gravitris-Gravitris; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.gravitris-gravitris" description="cleanup module">
+    <delete dir="${gravitris-gravitris.output.dir}"/>
+    <delete dir="${gravitris-gravitris.testoutput.dir}"/>
+  </target>
+</project>
