@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
-    protected boolean gameStarted = false;
     protected SensorManager sensorManager;
     protected Sensor sensor;
+    public final static int REFRESH_RATE = 1000000 / 60;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,10 +27,27 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         this.sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         this.sensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        this.sensorManager.registerListener(this, sensor, 1000/60);
+        this.sensorManager.registerListener(this, sensor, MainActivity.REFRESH_RATE);
         this.setContentView(R.layout.activity_main);
 
         //this.startGame();
+    }
+
+    @Override
+    protected void onPause() {
+        this.sensorManager.unregisterListener(this);
+        super.onPause();
+    }
+    @Override
+    protected void onResume() {
+        this.sensorManager.registerListener(this, sensor, MainActivity.REFRESH_RATE);
+        super.onResume();
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        this.sensorManager.unregisterListener(this);
     }
 
     @Override
@@ -47,7 +64,6 @@ public class MainActivity extends Activity implements SensorEventListener {
             TextView xText = (TextView)findViewById(R.id.textView_valueX);
             TextView yText = (TextView)findViewById(R.id.textView_valueY);
             TextView zText = (TextView)findViewById(R.id.textView_valueZ);
-
             xText.setText(String.valueOf(event.values[0]));
             yText.setText(String.valueOf(event.values[1]));
             zText.setText(String.valueOf(event.values[2]));
@@ -56,6 +72,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     public void goToGameActivity(View v)
     {
         Intent intentActivityGame;
+
         intentActivityGame = new Intent(MainActivity.this, GameActivity.class);
         this.startActivityForResult(intentActivityGame, 0);
     }
