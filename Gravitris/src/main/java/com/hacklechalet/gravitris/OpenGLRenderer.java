@@ -29,8 +29,17 @@ public class OpenGLRenderer implements Renderer {
     private float mPreviousY;
     private final float TOUCH_SCALE_FACTOR = 0.6f;
 
+    private int width;
+    private int height;
+
     public void MyRenderer(Context context) {
         mContext = context;
+    }
+
+    public OpenGLRenderer(int width,int height)
+    {
+        this.width = width;
+        this.height = height;
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -63,14 +72,15 @@ public class OpenGLRenderer implements Renderer {
        // gl.glRotatef(mAngleZ, 0, 0, 1);
        // gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
        // // Draw all lines
+
+
         for(int x=-10;x<10;++x)
+        for(int y=-10;y<10;++y)
         {
-            for(int y=-10;y<10;++y)
-            {
-                Square a = new Square();
-                a.setPosition(x,y);
-                a.draw(gl);
-            }
+            Square a = new Square();
+            a.setSize(0.5f);
+            a.setPosition(x/2.0f,y/2.0f);
+            a.draw(gl);
         }
     }
 

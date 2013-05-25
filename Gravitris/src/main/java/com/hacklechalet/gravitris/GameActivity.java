@@ -3,10 +3,7 @@ package com.hacklechalet.gravitris;
 import android.app.Activity;
 import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import android.view.*;
 
 /**
  * Created by samuel on 25/05/13.
@@ -25,8 +22,14 @@ public class GameActivity extends Activity{
 
     public void startGame()
     {
+        Display display = getWindowManager().getDefaultDisplay();
+        int width = display.getWidth();  // deprecated
+        int height = display.getHeight();  // deprecated
+
         GLSurfaceView view = new GLSurfaceView(this);
-        view.setRenderer(new OpenGLRenderer());
+        view.setRenderer(new OpenGLRenderer(width,height));
+
+
         this.setContentView(view);
     }
 }
