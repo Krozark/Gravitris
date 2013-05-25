@@ -48,6 +48,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     protected void onDestroy()
     {
         this.sensorManager.unregisterListener(this);
+        super.onDestroy();
     }
 
     @Override
