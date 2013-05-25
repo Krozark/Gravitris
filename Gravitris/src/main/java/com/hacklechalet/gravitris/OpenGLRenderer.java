@@ -20,10 +20,10 @@ import static android.util.FloatMath.sin;
 
 public class OpenGLRenderer implements Renderer {
     private Context mContext;
-    private FloatBuffer mVertexBuffer = null;
+    /*private FloatBuffer mVertexBuffer = null;
     private ShortBuffer mTriangleBorderIndicesBuffer = null;
     private int mNumOfTriangleBorderIndices = 0;
-
+*/
     public float mAngleX = 0.0f;
     public float mAngleY = 0.0f;
     public float mAngleZ = 0.0f;
@@ -34,6 +34,8 @@ public class OpenGLRenderer implements Renderer {
     private int width;
     private int height;
 
+    private float[] gravity; //x,y,z
+
     private Square sqr;
     long elapsedTime;
     Clock clock;
@@ -43,10 +45,11 @@ public class OpenGLRenderer implements Renderer {
         mContext = context;
     }
 
-    public OpenGLRenderer(int width,int height)
+    public OpenGLRenderer(int width,int height,float[] grav)
     {
         this.width = width;
         this.height = height;
+        this.gravity = grav;
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -64,7 +67,7 @@ public class OpenGLRenderer implements Renderer {
         gl.glHint(GL10.GL_PERSPECTIVE_CORRECTION_HINT, GL10.GL_NICEST);
 
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
-        setAllBuffers();
+
 
         sqr = new Square();
         sqr.setSize(0.5f);
@@ -83,8 +86,8 @@ public class OpenGLRenderer implements Renderer {
        // gl.glRotatef(mAngleZ, 0, 0, 1);
        // gl.glVertexPointer(3, GL10.GL_FLOAT, 0, mVertexBuffer);
        // // Draw all lines
-        elapsedTime += clock.reset();
-        sqr.move(sin(elapsedTime), sin(elapsedTime));
+        elapsedTime = clock.reset()/(long)1000;
+        sqr.move(elapsedTime*gravity[1], elapsedTime*gravity[1]);
         sqr.draw(gl);
     }
 
@@ -108,30 +111,6 @@ public class OpenGLRenderer implements Renderer {
         gl.glMatrixMode(GL10.GL_PROJECTION);
         gl.glLoadIdentity();
         gl.glFrustumf(-aspect, aspect, -1.0f, 1.0f, 1.0f, 10.0f);
-
-    }
-    private void setAllBuffers(){
-        // Set vertex buffer
-        float vertexlist[] = {
-                -1.0f, 0.0f, -1.0f,  1.0f, 0.0f, -1.0f,  -1.0f, 0.0f, 1.0f,
-                1.0f, 0.0f, 1.0f,  0.0f, 2.0f, 0.0f,
-        };
-        ByteBuffer vbb = ByteBuffer.allocateDirect(vertexlist.length * 4);
-        vbb.order(ByteOrder.nativeOrder());
-        mVertexBuffer = vbb.asFloatBuffer();
-        mVertexBuffer.put(vertexlist);
-        mVertexBuffer.position(0);
-
-        // Set triangle border buffer with vertex indices
-        short trigborderindexlist[] = {
-                4, 0,  4, 1,  4, 2,  4, 3,  0, 1,  1, 3,  3, 2,  2, 0,  0, 3
-        };
-        mNumOfTriangleBorderIndices = trigborderindexlist.length;
-        ByteBuffer tbibb = ByteBuffer.allocateDirect(trigborderindexlist.length * 2);
-        tbibb.order(ByteOrder.nativeOrder());
-        mTriangleBorderIndicesBuffer = tbibb.asShortBuffer();
-        mTriangleBorderIndicesBuffer.put(trigborderindexlist);
-        mTriangleBorderIndicesBuffer.position(0);
 
     }
 
