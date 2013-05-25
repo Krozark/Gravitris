@@ -79,7 +79,9 @@ public class OpenGLRenderer implements Renderer {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
         sqr = new Square(0.5f,0,0);
-        sqr2 = sqr.genNeighboor(Square.DIRECTION_RIGHT);
+        Log.d("Gravitris",""+sqr.getPosition().x+" "+sqr.getPosition().y);
+        sqr2 = new Square(0.5f,1,1);
+        Log.d("Gravitris",""+sqr2.getPosition().x+" "+sqr2.getPosition().y);
 
         clock = new Clock();
     }
@@ -98,7 +100,7 @@ public class OpenGLRenderer implements Renderer {
         if(!pause)
             game.next((float)elapsedSec);
 
-        Log.d("Gravitris", "" + width + " " + height);
+        //Log.d("Gravitris", "" + width + " " + height);
 
         //Log.d("Gravitris", ""+ elapsedSec);
         //sqr.move((float)(elapsedSec*gravity[0]),(float)(elapsedSec*gravity[1]));
