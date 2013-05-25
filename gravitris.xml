@@ -58,7 +58,7 @@
   
   <!-- JDK definitions -->
   
-  <property name="jdk.bin.android_4.2.2" value="${jdk.home.android_4.2.2}/../../../../../usr/lib/jvm/java-7-oracle/bin"/>
+  <property name="jdk.bin.android_4.2.2" value="${jdk.home.android_4.2.2}/../../usr/lib/jvm/java-7-openjdk/bin"/>
   <path id="jdk.classpath.android_4.2.2">
     <fileset dir="${jdk.home.android_4.2.2}">
       <include name="platforms/android-17/android.jar"/>
@@ -70,22 +70,18 @@
   <property name="jdk.bin.1.7" value="${jdk.home.1.7}/bin"/>
   <path id="jdk.classpath.1.7">
     <fileset dir="${jdk.home.1.7}">
-      <include name="jre/lib/plugin.jar"/>
+      <include name="jre/lib/jsse.jar"/>
+      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/charsets.jar"/>
       <include name="jre/lib/jce.jar"/>
       <include name="jre/lib/management-agent.jar"/>
-      <include name="jre/lib/charsets.jar"/>
-      <include name="jre/lib/deploy.jar"/>
-      <include name="jre/lib/jfr.jar"/>
-      <include name="jre/lib/javaws.jar"/>
-      <include name="jre/lib/jsse.jar"/>
-      <include name="jre/lib/jfxrt.jar"/>
-      <include name="jre/lib/resources.jar"/>
+      <include name="jre/lib/rhino.jar"/>
       <include name="jre/lib/rt.jar"/>
       <include name="jre/lib/ext/zipfs.jar"/>
       <include name="jre/lib/ext/dnsns.jar"/>
-      <include name="jre/lib/ext/sunjce_provider.jar"/>
-      <include name="jre/lib/ext/sunec.jar"/>
+      <include name="jre/lib/ext/pulse-java.jar"/>
       <include name="jre/lib/ext/sunpkcs11.jar"/>
+      <include name="jre/lib/ext/sunjce_provider.jar"/>
       <include name="jre/lib/ext/localedata.jar"/>
     </fileset>
   </path>
@@ -97,126 +93,12 @@
   
   <!-- Project Libraries -->
   
-  <path id="library.android-support-v4.classpath"/>
+  <path id="library.android-support-v4.classpath">
+    <pathelement location="${basedir}/Gravitris/libs/android-support-v4.jar"/>
+  </path>
   
   <path id="library.jbox2d-library-2.2.1.1.classpath">
-    <pathelement location="${basedir}/Gravitris/libs/jbox2d-library-2.2.1.1.jar"/>
-  </path>
-  
-  <path id="library.maven:_com.google.protobuf:protobuf-java:2.4.1.classpath">
-    <pathelement location="${path.variable.maven_repository}/com/google/protobuf/protobuf-java/2.4.1/protobuf-java-2.4.1.jar"/>
-  </path>
-  
-  <path id="library.maven:_junit:junit:4.8.2.classpath">
-    <pathelement location="${path.variable.maven_repository}/junit/junit/4.8.2/junit-4.8.2.jar"/>
-  </path>
-  
-  <path id="library.maven:_log4j:log4j:1.2.14.classpath">
-    <pathelement location="${path.variable.maven_repository}/log4j/log4j/1.2.14/log4j-1.2.14.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt-main:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt-main/2.0-rc11/gluegen-rt-main-2.0-rc11.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:natives-android-armv6:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11-natives-android-armv6.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:natives-linux-amd64:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11-natives-linux-amd64.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:natives-linux-armv6:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11-natives-linux-armv6.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:natives-linux-armv6hf:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11-natives-linux-armv6hf.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:natives-linux-i586:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11-natives-linux-i586.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:natives-macosx-universal:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11-natives-macosx-universal.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:natives-solaris-amd64:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11-natives-solaris-amd64.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:natives-solaris-i586:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11-natives-solaris-i586.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:natives-windows-amd64:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11-natives-windows-amd64.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.gluegen:gluegen-rt:natives-windows-i586:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/gluegen/gluegen-rt/2.0-rc11/gluegen-rt-2.0-rc11-natives-windows-i586.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all-main:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all-main/2.0-rc11/jogl-all-main-2.0-rc11.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:natives-android-armv6:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11-natives-android-armv6.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:natives-linux-amd64:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11-natives-linux-amd64.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:natives-linux-armv6:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11-natives-linux-armv6.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:natives-linux-armv6hf:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11-natives-linux-armv6hf.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:natives-linux-i586:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11-natives-linux-i586.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:natives-macosx-universal:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11-natives-macosx-universal.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:natives-solaris-amd64:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11-natives-solaris-amd64.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:natives-solaris-i586:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11-natives-solaris-i586.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:natives-windows-amd64:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11-natives-windows-amd64.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.jogamp.jogl:jogl-all:natives-windows-i586:2.0-rc11.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/jogamp/jogl/jogl-all/2.0-rc11/jogl-all-2.0-rc11-natives-windows-i586.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.slf4j:slf4j-api:1.6.1.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/slf4j/slf4j-api/1.6.1/slf4j-api-1.6.1.jar"/>
-  </path>
-  
-  <path id="library.maven:_org.slf4j:slf4j-log4j12:1.6.1.classpath">
-    <pathelement location="${path.variable.maven_repository}/org/slf4j/slf4j-log4j12/1.6.1/slf4j-log4j12-1.6.1.jar"/>
+    <pathelement location="${basedir}/lib/jbox2d-library-2.2.1.1.jar"/>
   </path>
   <!-- Register Custom Compiler Taskdefs -->
   <property name="javac2.home" value="${idea.home}/lib"/>
@@ -233,27 +115,193 @@
   
   <!-- Modules -->
   
-  <import file="${basedir}/module_gravitris.xml"/>
   
-  <import file="${basedir}/../../../../Developement/android/jbox2d-2.2.1.1/module_jbox2d.xml"/>
+  <!-- Module Gravitris -->
   
-  <import file="${basedir}/../../../../Developement/android/jbox2d-2.2.1.1/jbox2d-library/module_jbox2d-library.xml"/>
+  <dirname property="module.gravitris.basedir" file="${ant.file}"/>
   
-  <import file="${basedir}/module_gravitris-gravitris.xml"/>
   
-  <import file="${basedir}/../../../../Developement/android/jbox2d-2.2.1.1/jbox2d-serialization/module_jbox2d-serialization.xml"/>
+  <property name="module.jdk.home.gravitris" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.gravitris" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.gravitris" value="${project.jdk.classpath}"/>
   
-  <import file="${basedir}/../../../../Developement/android/jbox2d-2.2.1.1/jbox2d-testbed/module_jbox2d-testbed.xml"/>
+  <property name="compiler.args.gravitris" value="${compiler.args}"/>
   
-  <import file="${basedir}/../../../../Developement/android/jbox2d-2.2.1.1/jbox2d-testbed-jogl/module_jbox2d-testbed-jogl.xml"/>
+  <property name="gravitris.output.dir" value="${module.gravitris.basedir}/build/classes/production/Gravitris"/>
+  <property name="gravitris.testoutput.dir" value="${module.gravitris.basedir}/build/classes/test/Gravitris"/>
+  
+  <path id="gravitris.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="gravitris.module.production.classpath">
+    <path refid="${module.jdk.classpath.gravitris}"/>
+    <path refid="library.jbox2d-library-2.2.1.1.classpath"/>
+  </path>
+  
+  <path id="gravitris.runtime.production.module.classpath">
+    <pathelement location="${gravitris.output.dir}"/>
+    <path refid="library.jbox2d-library-2.2.1.1.classpath"/>
+  </path>
+  
+  <path id="gravitris.module.classpath">
+    <path refid="${module.jdk.classpath.gravitris}"/>
+    <pathelement location="${gravitris.output.dir}"/>
+    <path refid="library.jbox2d-library-2.2.1.1.classpath"/>
+  </path>
+  
+  <path id="gravitris.runtime.module.classpath">
+    <pathelement location="${gravitris.testoutput.dir}"/>
+    <pathelement location="${gravitris.output.dir}"/>
+    <path refid="library.jbox2d-library-2.2.1.1.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.gravitris">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.gravitris">
+    <patternset refid="excluded.from.module.gravitris"/>
+  </patternset>
+  
+  
+  <target name="compile.module.gravitris" depends="compile.module.gravitris.production,compile.module.gravitris.tests" description="Compile module Gravitris"/>
+  
+  <target name="compile.module.gravitris.production" depends="register.custom.compilers" description="Compile module Gravitris; production classes"/>
+  
+  <target name="compile.module.gravitris.tests" depends="register.custom.compilers,compile.module.gravitris.production" description="compile module Gravitris; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.gravitris" description="cleanup module">
+    <delete dir="${gravitris.output.dir}"/>
+    <delete dir="${gravitris.testoutput.dir}"/>
+  </target>
+  
+  
+  <!-- Module Gravitris-Gravitris -->
+  
+  <dirname property="module.gravitris-gravitris.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.gravitris-gravitris" value="${jdk.home.android_4.2.2}"/>
+  <property name="module.jdk.bin.gravitris-gravitris" value="${jdk.bin.android_4.2.2}"/>
+  <property name="module.jdk.classpath.gravitris-gravitris" value="jdk.classpath.android_4.2.2"/>
+  
+  <property name="compiler.args.gravitris-gravitris" value="${compiler.args}"/>
+  
+  <property name="gravitris-gravitris.output.dir" value="${module.gravitris-gravitris.basedir}/build/classes/production/Gravitris-Gravitris"/>
+  <property name="gravitris-gravitris.testoutput.dir" value="${module.gravitris-gravitris.basedir}/build/classes/test/Gravitris-Gravitris"/>
+  
+  <path id="gravitris-gravitris.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="gravitris-gravitris.module.production.classpath">
+    <path refid="${module.jdk.classpath.gravitris-gravitris}"/>
+    <path refid="library.android-support-v4.classpath"/>
+    <path refid="library.jbox2d-library-2.2.1.1.classpath"/>
+  </path>
+  
+  <path id="gravitris-gravitris.runtime.production.module.classpath">
+    <pathelement location="${gravitris-gravitris.output.dir}"/>
+    <path refid="library.android-support-v4.classpath"/>
+    <path refid="library.jbox2d-library-2.2.1.1.classpath"/>
+  </path>
+  
+  <path id="gravitris-gravitris.module.classpath">
+    <path refid="${module.jdk.classpath.gravitris-gravitris}"/>
+    <pathelement location="${gravitris-gravitris.output.dir}"/>
+    <path refid="library.android-support-v4.classpath"/>
+    <path refid="library.jbox2d-library-2.2.1.1.classpath"/>
+  </path>
+  
+  <path id="gravitris-gravitris.runtime.module.classpath">
+    <pathelement location="${gravitris-gravitris.testoutput.dir}"/>
+    <pathelement location="${gravitris-gravitris.output.dir}"/>
+    <path refid="library.android-support-v4.classpath"/>
+    <path refid="library.jbox2d-library-2.2.1.1.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.gravitris-gravitris">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.gravitris-gravitris">
+    <patternset refid="excluded.from.module.gravitris-gravitris"/>
+  </patternset>
+  
+  <path id="gravitris-gravitris.module.sourcepath">
+    <dirset dir="${module.gravitris-gravitris.basedir}/Gravitris">
+      <include name="build/source/r/debug"/>
+      <include name="build/source/aidl/debug"/>
+      <include name="build/source/rs/debug"/>
+      <include name="build/source/buildConfig/debug"/>
+      <include name="build/res/rs/debug"/>
+      <include name="src/main/java"/>
+      <include name="src/main/res"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.gravitris-gravitris" depends="compile.module.gravitris-gravitris.production,compile.module.gravitris-gravitris.tests" description="Compile module Gravitris-Gravitris"/>
+  
+  <target name="compile.module.gravitris-gravitris.production" depends="register.custom.compilers" description="Compile module Gravitris-Gravitris; production classes">
+    <mkdir dir="${gravitris-gravitris.output.dir}"/>
+    <javac2 destdir="${gravitris-gravitris.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.gravitris-gravitris}/javac">
+      <compilerarg line="${compiler.args.gravitris-gravitris}"/>
+      <bootclasspath refid="gravitris-gravitris.module.bootclasspath"/>
+      <classpath refid="gravitris-gravitris.module.production.classpath"/>
+      <src refid="gravitris-gravitris.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.gravitris-gravitris"/>
+    </javac2>
+    
+    <copy todir="${gravitris-gravitris.output.dir}">
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/build/source/r/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/build/source/aidl/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/build/source/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/build/source/buildConfig/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/build/res/rs/debug">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/src/main/java">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.gravitris-gravitris.basedir}/Gravitris/src/main/res">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.gravitris-gravitris.tests" depends="register.custom.compilers,compile.module.gravitris-gravitris.production" description="compile module Gravitris-Gravitris; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.gravitris-gravitris" description="cleanup module">
+    <delete dir="${gravitris-gravitris.output.dir}"/>
+    <delete dir="${gravitris-gravitris.testoutput.dir}"/>
+  </target>
   
   <target name="init" description="Build initialization">
     <!-- Perform any build initialization in this target -->
   </target>
   
-  <target name="clean" depends="clean.module.gravitris, clean.module.jbox2d, clean.module.jbox2d-library, clean.module.gravitris-gravitris, clean.module.jbox2d-serialization, clean.module.jbox2d-testbed, clean.module.jbox2d-testbed-jogl" description="cleanup all"/>
+  <target name="clean" depends="clean.module.gravitris, clean.module.gravitris-gravitris" description="cleanup all"/>
   
-  <target name="build.modules" depends="init, clean, compile.module.gravitris, compile.module.jbox2d, compile.module.jbox2d-library, compile.module.gravitris-gravitris, compile.module.jbox2d-serialization, compile.module.jbox2d-testbed, compile.module.jbox2d-testbed-jogl" description="build all modules"/>
+  <target name="build.modules" depends="init, clean, compile.module.gravitris, compile.module.gravitris-gravitris" description="build all modules"/>
   
   <target name="all" depends="build.modules" description="build all"/>
 </project>
