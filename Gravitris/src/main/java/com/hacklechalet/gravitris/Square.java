@@ -152,7 +152,6 @@ public class Square extends  PhysiqueObject{
         colorBuffer.position(0);
 
         setSize(_size);
-
         shape.setAsBox(toMet(size/2),toMet(size/2));
         fixtureDef.shape = shape;
         fixture = body.createFixture(fixtureDef);
