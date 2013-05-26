@@ -34,7 +34,8 @@ public class OpenGLRenderer implements Renderer {
     private float mPreviousX;
     private float mPreviousY;
     private final float TOUCH_SCALE_FACTOR = 0.6f;
-    private  final long TIME_NEXT_SQUARESET = 1000*5;
+    private final long TIME_NEXT_SQUARESET = 1000*10;
+    private final float SIZE_SQUARE = 0.5f;
 
     private int width;
     private int height;
@@ -93,10 +94,11 @@ public class OpenGLRenderer implements Renderer {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
         sqrS = new SquareSet();
-        sqrS.add(new SquareSet(0.5f));
+        /*
+        sqrS.add(new SquareSet(SIZE_SQUARE));
 
         sqr = new Square(0.5f,3,3);
-
+        */
         Wall[] w = {
             new Wall(0.1f,20,4,0),
             new Wall(0.1f,20,-5,0),
@@ -127,14 +129,14 @@ public class OpenGLRenderer implements Renderer {
 
             if(this.nextGen > TIME_NEXT_SQUARESET)
             {
-                sqrS.add(new SquareSet(0.5f));
+                sqrS.add(new SquareSet(SIZE_SQUARE));
                 this.nextGen = 0;
             }
             game.next((float)elapsedSec);
         }
 
         sqrS.draw(gl);
-        sqr.draw(gl);
+        //sqr.draw(gl);
     }
 
 
