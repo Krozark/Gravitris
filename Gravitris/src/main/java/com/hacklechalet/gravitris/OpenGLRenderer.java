@@ -78,8 +78,8 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         // Set the background color to black ( rgba ).
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
-        float lowerX = -25.0f, upperX = 25.0f, lowerY = -5.0f, upperY = 25.0f;
-        gluOrtho2D(gl, lowerX, upperX, lowerY, upperY);
+        //float lowerX = -25.0f, upperX = 25.0f, lowerY = -5.0f, upperY = 25.0f;
+        //gluOrtho2D(gl, lowerX, upperX, lowerY, upperY);
         // Enable Smooth Shading, default not really needed.
         //gl.glShadeModel(GL10.GL_SMOOTH);
         // Depth buffer setup.
@@ -182,6 +182,8 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     }
 
     public boolean onTouch(View v, MotionEvent e) {
+        //float x = (e.getX() / v.getWidth()) * 9.0f - 5.0f;
+        //float y = (e.getY() / v.getHeight()) * (8.3f + 6.2f) - 8.3f;
         float x = e.getX();
         float y = e.getY();
         switch (e.getAction()) {
@@ -194,6 +196,14 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
         }
         mPreviousX = x;
         mPreviousY = y;
+        for(Square square : this.sqrS.set)
+        {
+            if(square.contains(x, y))
+            {
+                Log.d("ontouch", "square !");
+                square.body.applyAngularImpulse(mAngleX);
+            }
+        }
         return true;
     }
 
