@@ -58,7 +58,6 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
     private boolean pause = false;
     private GamePhysics game;
-    public int scorePlayer = 0;
 
     public void MyRenderer(Context context) {
         mContext = context;
@@ -237,13 +236,37 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
                     game.world.destroyBody(sqr.body);
                 }
                 game.score +=game.lineSize;
-                this.scorePlayer = game.score;
 
-                if (y >= 14)
-                {
-                    game.fail = true;
-                }
+
+            }
+
+            if (y >= 14 && nb > 0) //14
+            {
+                this.setLoose(true);
             }
         }
+    }
+
+    public int getScorePlayer()
+    {
+        return this.game.score;
+    }
+
+    public boolean getStatusGame()
+    {
+        return this.game.fail;
+    }
+
+    public boolean loose()
+    {
+        return this.game.fail;
+    }
+
+    public void setLoose(boolean loose)
+    {
+        if(loose)
+            this.setPause();
+
+        this.game.fail = loose;
     }
 }
