@@ -1,6 +1,7 @@
 package com.hacklechalet.gravitris;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -23,7 +24,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     protected SensorManager sensorManager;
     protected Sensor sensor;
-    protected float[] gravityValues;
+    public float[] gravityValues;
     public final static int REFRESH_RATE = 1000000 / 60;
     private TextView textViewScore;
     private TextView textViewResScore;
@@ -31,6 +32,8 @@ public class GameActivity extends Activity implements SensorEventListener {
     public String stringScore = "0";
     public Timer timer;
     private OpenGLRenderer openGlRender;
+
+    public int height, width;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +80,8 @@ public class GameActivity extends Activity implements SensorEventListener {
     public void startGame()
     {
         Display display = getWindowManager().getDefaultDisplay();
-        int width = display.getWidth();  // deprecated
-        int height = display.getHeight();  // deprecated
+        width = display.getWidth(); // deprecated
+        height = display.getHeight(); // deprecated
 
         row = new LinearLayout(this);
 
@@ -130,7 +133,27 @@ public class GameActivity extends Activity implements SensorEventListener {
             {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        textViewResScore.setText(String.valueOf(openGlRender.scorePlayer));
+                        textViewResScore.setText(String.valueOf(openGlRender.getScorePlayer()));
+
+                        //if(openGlRender.getStatusGame() == true)
+                        //{
+                            if(openGlRender.loose())
+                            {
+                                finish();
+                            }
+                            /*
+                            Dialog d = new Dialog(getBaseContext());
+                            d.setTitle("Perdu");
+
+                            LinearLayout l = new LinearLayout(getBaseContext());
+                            TextView tLoose = new TextView(getBaseContext());
+                            tLoose.setText("Vous avez perdu, cliquer pour recommencer !");
+
+                            l.addView(tLoose);
+
+                            d.setContentView(l);
+                            */
+                        //}
                     }
                 });
             }

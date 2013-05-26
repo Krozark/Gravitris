@@ -180,6 +180,11 @@ public class Square extends  PhysiqueObject{
         size = _size;
     }
 
+    public boolean contains(float x, float y)
+    {
+        return this.top_left.x > x && this.bottom_right.x < x && this.top_left.y < y && this.bottom_right.y > y;
+    }
+
     public void draw(GL10 gl) {
         majPosition();
 
