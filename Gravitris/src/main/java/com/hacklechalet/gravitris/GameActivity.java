@@ -72,6 +72,7 @@ public class GameActivity extends Activity implements SensorEventListener {
         GLSurfaceView view = new GLSurfaceView(this);
         OpenGLRenderer openGlRender = new OpenGLRenderer(width,height,this.gravityValues);
         view.setRenderer(openGlRender);
+        view.setOnTouchListener(openGlRender);
 
         this.setContentView(view);
 

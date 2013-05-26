@@ -12,6 +12,7 @@ import android.opengl.GLU;
 import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import org.jbox2d.common.Vec2;
 
 import java.nio.ByteBuffer;
@@ -22,7 +23,7 @@ import java.nio.ShortBuffer;
 import static android.opengl.GLU.gluOrtho2D;
 import static android.util.FloatMath.sin;
 
-public class OpenGLRenderer implements Renderer {
+public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     private Context mContext;
     /*private FloatBuffer mVertexBuffer = null;
     private ShortBuffer mTriangleBorderIndicesBuffer = null;
@@ -127,10 +128,17 @@ public class OpenGLRenderer implements Renderer {
 
             if(this.nextGen > TIME_NEXT_SQUARESET)
             {
-                sqrS.add(new SquareSet(0.5f));
+                if(Math.abs(this.gravity[1]) > Math.abs(this.gravity[0]))
+                {
+                    sqrS.add(new SquareSet(0.5f, 1));
+                }
+                else
+                {
+                    sqrS.add(new SquareSet(0.5f, 0));
+                }
                 this.nextGen = 0;
             }
-            game.next((float)elapsedSec);
+            game.next((float) elapsedSec);
         }
 
         sqrS.draw(gl);
@@ -160,7 +168,7 @@ public class OpenGLRenderer implements Renderer {
 
     }
 
-    public boolean onTouchEvent(MotionEvent e) {
+    public boolean onTouch(View v, MotionEvent e) {
         float x = e.getX();
         float y = e.getY();
         switch (e.getAction()) {
