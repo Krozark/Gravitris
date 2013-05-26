@@ -204,6 +204,8 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
         }
         mPreviousX = x;
         mPreviousY = y;
+
+        Log.d("Gravitris"," "+x+" "+y);
         return true;
     }
 
