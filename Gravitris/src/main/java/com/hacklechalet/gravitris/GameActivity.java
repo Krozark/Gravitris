@@ -137,22 +137,22 @@ public class GameActivity extends Activity implements SensorEventListener {
 
                         //if(openGlRender.getStatusGame() == true)
                         //{
-                        if(openGlRender.loose())
-                        {
-                            finish();
-                        }
+                            if(openGlRender.loose())
+                            {
+                                finish();
+                            }
                             /*
-Dialog d = new Dialog(getBaseContext());
-d.setTitle("Perdu");
+                            Dialog d = new Dialog(getBaseContext());
+                            d.setTitle("Perdu");
 
-LinearLayout l = new LinearLayout(getBaseContext());
-TextView tLoose = new TextView(getBaseContext());
-tLoose.setText("Vous avez perdu, cliquer pour recommencer !");
+                            LinearLayout l = new LinearLayout(getBaseContext());
+                            TextView tLoose = new TextView(getBaseContext());
+                            tLoose.setText("Vous avez perdu, cliquer pour recommencer !");
 
-l.addView(tLoose);
+                            l.addView(tLoose);
 
-d.setContentView(l);
-*/
+                            d.setContentView(l);
+                            */
                         //}
                     }
                 });
