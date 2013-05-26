@@ -22,9 +22,13 @@ public class GameActivity extends Activity implements SensorEventListener {
     protected Sensor sensor;
     protected float[] gravityValues;
     public final static int REFRESH_RATE = 1000000 / 60;
+    private TextView textViewScore;
+    private TextView textViewResScore;
+    private LinearLayout row;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        textViewResScore = new TextView(this);
         this.gravityValues = new float[3];
         super.onCreate(savedInstanceState);
 
@@ -35,6 +39,8 @@ public class GameActivity extends Activity implements SensorEventListener {
         this.sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         this.sensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         this.sensorManager.registerListener(this, sensor, GameActivity.REFRESH_RATE);
+
+
 
         this.startGame();
 
@@ -68,27 +74,22 @@ public class GameActivity extends Activity implements SensorEventListener {
         int width = display.getWidth();  // deprecated
         int height = display.getHeight();  // deprecated
 
+        row = new LinearLayout(this);
 
-        GLSurfaceView view = new GLSurfaceView(this);
-        OpenGLRenderer openGlRender = new OpenGLRenderer(width,height,this.gravityValues);
-        view.setRenderer(openGlRender);
-        view.setOnTouchListener(openGlRender);
-
-        this.setContentView(view);
-
-        LinearLayout row = new LinearLayout(this);
-
-        TextView textViewScore = new TextView(this);
+        textViewScore = new TextView(this);
         textViewScore.setText("Score :");
 
         textViewScore.setBackgroundColor(Color.DKGRAY);
         textViewScore.setTextColor(Color.BLACK);
 
-        TextView textViewResScore = new TextView(this);
+
         textViewResScore.setText(" 0 ");
 
         textViewResScore.setBackgroundColor(Color.DKGRAY);
         textViewResScore.setTextColor(Color.BLACK);
+
+        GLSurfaceView view = new GLSurfaceView(this);
+        OpenGLRenderer openGlRender = new OpenGLRenderer(width,height,this.gravityValues, this);
 
         Button buttonPause = new Button(this);
 
@@ -105,6 +106,12 @@ public class GameActivity extends Activity implements SensorEventListener {
         row.addView(textViewScore, 0);
         row.addView(textViewResScore, 1);
         row.addView(buttonPause, 2);
+
+        view.setRenderer(openGlRender);
+        view.setOnTouchListener(openGlRender);
+
+        this.setContentView(view);
+
 
         this.addContentView(row, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
     }

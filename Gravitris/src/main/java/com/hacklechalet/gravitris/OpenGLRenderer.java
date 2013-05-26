@@ -13,6 +13,7 @@ import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import org.jbox2d.common.Vec2;
 
 import java.nio.ByteBuffer;
@@ -37,7 +38,8 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     private float mPreviousX;
     private float mPreviousY;
     private final float TOUCH_SCALE_FACTOR = 0.6f;
-    private  final long TIME_NEXT_SQUARESET = 1000*6;
+    private final long TIME_NEXT_SQUARESET = 1000*5;
+    private final float SIZE_SQUARE = 0.5f;
 
     private int width;
     private int height;
@@ -47,6 +49,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     private float[] gravity; //x,y,z
 
     private SquareSet sqrS;
+    private SquareSet coloredSquares[];
 
     private Wall walls[];
 
@@ -61,15 +64,17 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
         mContext = context;
     }
 
-    public OpenGLRenderer(int width,int height,float[] grav)
+    public OpenGLRenderer(int width,int height,float[] grav, Context context)
     {
         this.width = width;
         this.height = height;
         this.gravity = grav;
         this.nextGen = 0;
+        this.mContext = context;
 
         game = new GamePhysics();
         PhysiqueObject.world = game.world;
+        game.score = 0;
 
 
     }
@@ -94,7 +99,15 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
         sqrS = new SquareSet();
-        sqrS.add(new SquareSet(0.5f));
+
+        SquareSet firstFigure = new SquareSet(0.5f);
+        sqrS.add(firstFigure);
+        coloredSquares = new SquareSet[6];
+        for(int i = 0; i < 6; i++)
+        {
+            coloredSquares[i] = new SquareSet();
+        }
+        coloredSquares[firstFigure.getType()].add(firstFigure);
 
         Wall[] w = {
             new Wall(0.1f,20,4,0),
@@ -127,18 +140,21 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
             if(this.nextGen > TIME_NEXT_SQUARESET)
             {
+                SquareSet nextFigure;
                 if(Math.abs(this.gravity[1]) > Math.abs(this.gravity[0]))
                 {
-                    sqrS.add(new SquareSet(0.5f, -1, 0));
+                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 0);
                 }
                 else if (this.gravity[0] > 0)
                 {
-                    sqrS.add(new SquareSet(0.5f, -1, 1));
+                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 1);
                 }
                 else
                 {
-                    sqrS.add(new SquareSet(0.5f, -1, 2));
+                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 2);
                 }
+                sqrS.add(nextFigure);
+                coloredSquares[nextFigure.getType()].add(nextFigure);
                 this.nextGen = 0;
             }
             game.next((float) elapsedSec);
