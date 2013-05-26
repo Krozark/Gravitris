@@ -18,9 +18,13 @@ public class MainActivity extends Activity implements SensorEventListener {
     protected SensorManager sensorManager;
     protected Sensor sensor;
     public final static int REFRESH_RATE = 1000000 / 60;
+    GameActivity gameActivity;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -31,6 +35,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         this.sensorManager.registerListener(this, sensor, MainActivity.REFRESH_RATE);
         this.setContentView(R.layout.activity_main);
 
+        gameActivity = new GameActivity();
         //this.startGame();
     }
 
@@ -63,19 +68,20 @@ public class MainActivity extends Activity implements SensorEventListener {
     {
         if (event.sensor.getType() == Sensor.TYPE_GRAVITY)
         {
-            TextView xText = (TextView)findViewById(R.id.textView_valueX);
+/*            TextView xText = (TextView)findViewById(R.id.textView_valueX);
             TextView yText = (TextView)findViewById(R.id.textView_valueY);
             TextView zText = (TextView)findViewById(R.id.textView_valueZ);
             xText.setText(String.valueOf(event.values[0]));
             yText.setText(String.valueOf(event.values[1]));
             zText.setText(String.valueOf(event.values[2]));
+            */
         }
     }
     public void goToGameActivity(View v)
     {
         Intent intentActivityGame;
 
-        intentActivityGame = new Intent(MainActivity.this, GameActivity.class);
+        intentActivityGame = new Intent(MainActivity.this, gameActivity.getClass());
         this.startActivityForResult(intentActivityGame, 0);
     }
 

@@ -17,6 +17,8 @@
     <string name="xValue_textView">value x</string>
     <string name="yValue_textView">value y</string>
     <string name="zValue_textView">value z</string>
+    <string name="textView_lastScore">Last score :</string>
+    <string name="textView_lastResScore">0</string>
 
 
 </resources>

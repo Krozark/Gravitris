@@ -18,60 +18,10 @@
             android:layout_alignParentRight="true" android:layout_alignParentLeft="true" android:minWidth="10dp"
             android:minHeight="10dp" android:layout_alignParentTop="true" android:textColor="#ffffff"
             android:height="80dp"/>
-    <TableLayout
-            android:orientation="horizontal"
+    <LinearLayout
+            android:orientation="vertical"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content" android:layout_below="@+id/button"
-            android:layout_alignLeft="@+id/button" android:layout_marginTop="11dp"
-            >
-        <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/x_textView"
-                    android:id="@+id/textView" android:layout_gravity="left|center_vertical"
-                    android:layout_column="0" android:autoText="false" android:textColor="#ffffff"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/xValue_textView"
-                    android:id="@+id/textView_valueX" android:layout_column="1" android:textColor="#ffffff"/>
-        </TableRow>
-        <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/y_textView"
-                    android:id="@+id/textView3" android:layout_column="0" android:textColor="#ffffff"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/yValue_textView"
-                    android:id="@+id/textView_valueY" android:layout_column="1" android:textColor="#ffffff"/>
-        </TableRow>
-        <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent">
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/z_textView"
-                    android:id="@+id/textView2" android:layout_column="0" android:textColor="#ffffff"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="@string/zValue_textView"
-                    android:id="@+id/textView_valueZ" android:layout_column="1" android:textColor="#ffffff"/>
-        </TableRow>
-    </TableLayout>
+            android:layout_height="fill_parent" android:layout_below="@+id/button"
+            android:layout_alignParentLeft="true">
+    </LinearLayout>
 </RelativeLayout>

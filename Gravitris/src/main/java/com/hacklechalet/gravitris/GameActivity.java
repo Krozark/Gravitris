@@ -1,8 +1,10 @@
 package com.hacklechalet.gravitris;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -28,6 +30,7 @@ public class GameActivity extends Activity implements SensorEventListener {
     public final static int REFRESH_RATE = 1000000 / 60;
     private TextView textViewScore;
     private TextView textViewResScore;
+
     private LinearLayout row;
     public String stringScore = "0";
     public Timer timer;
@@ -74,6 +77,24 @@ public class GameActivity extends Activity implements SensorEventListener {
     {
         this.sensorManager.unregisterListener(this);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+
+                    }
+                });
+            }
+        }).start();
+
         super.onDestroy();
     }
 
@@ -134,6 +155,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 runOnUiThread(new Runnable() {
                     public void run() {
                         textViewResScore.setText(String.valueOf(openGlRender.getScorePlayer()));
+                        stringScore = String.valueOf(openGlRender.getScorePlayer());
 
                         //if(openGlRender.getStatusGame() == true)
                         //{
@@ -159,6 +181,28 @@ public class GameActivity extends Activity implements SensorEventListener {
             }
         }, 250, 250);
     };
+
+    public void showScore()
+    {
+        AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+        builder1.setMessage("Perdu ! Votre score : "+this.stringScore);
+        builder1.setCancelable(true);
+        builder1.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        builder1.setNegativeButton("No",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alert11 = builder1.create();
+        alert11.show();
+    }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
