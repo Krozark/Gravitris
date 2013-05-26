@@ -150,7 +150,7 @@ public class Square extends  PhysiqueObject{
 
     private void setRotation(float angle)
     {
-        
+
     }
 
     public Vector2<Float> getPosition()
