@@ -129,11 +129,15 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
             {
                 if(Math.abs(this.gravity[1]) > Math.abs(this.gravity[0]))
                 {
-                    sqrS.add(new SquareSet(0.5f, 1));
+                    sqrS.add(new SquareSet(0.5f, -1, 0));
+                }
+                else if (this.gravity[0] > 0)
+                {
+                    sqrS.add(new SquareSet(0.5f, -1, 1));
                 }
                 else
                 {
-                    sqrS.add(new SquareSet(0.5f, 0));
+                    sqrS.add(new SquareSet(0.5f, -1, 2));
                 }
                 this.nextGen = 0;
             }

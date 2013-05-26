@@ -43,9 +43,13 @@ public class SquareSet {
         {
             primitive = new Square(size, -1, 5);
         }
-        else // Landscape
+        else if (orientation == 1)// Landscape
         {
-            primitive = new Square(size, 3, -5);
+            primitive = new Square(size, 1.5f, -1);
+        }
+        else
+        {
+            primitive = new Square(size, -3.5f, -1);
         }
         this.set.add(primitive);
         switch(type)
