@@ -117,7 +117,7 @@ public class Square extends  PhysiqueObject{
         DistanceJointDef jd = new DistanceJointDef();
         jd.initialize(body,res.body,body.getWorldCenter(), res.body.getWorldCenter());
         jd.collideConnected = true;
-        jd.frequencyHz = 50;
+        jd.frequencyHz = 0.5f;
 
         world.createJoint(jd);
 
@@ -169,7 +169,6 @@ public class Square extends  PhysiqueObject{
 
     public void draw(GL10 gl) {
         next();
-        Log.d("Gravitris",""+top_left.x+" "+top_left.y);
 
         float matrixVertices[] = {
                 top_left.x,  top_left.y, 0.0f,  // 0, Top Left
