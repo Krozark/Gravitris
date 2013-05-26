@@ -9,7 +9,7 @@ import org.jbox2d.dynamics.*;
  */
 public class PhysiqueObject {
     protected static BodyDef bodyDef = new BodyDef();
-    protected Body body;
+    public Body body;
     protected PolygonShape shape;
     protected static FixtureDef fixtureDef = new FixtureDef();
     protected Fixture fixture;

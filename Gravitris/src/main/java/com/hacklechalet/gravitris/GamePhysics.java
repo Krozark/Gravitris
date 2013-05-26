@@ -11,6 +11,9 @@ public class GamePhysics {
     private int velocityIter = 8;
     private int positionIter = 3;
 
+    public int lineSize = 8;
+    public  int score = 0;
+
     public GamePhysics()
     {
         Vec2 gravity = new Vec2(0.f,9.8f);

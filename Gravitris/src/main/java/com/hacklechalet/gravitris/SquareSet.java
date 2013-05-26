@@ -9,7 +9,7 @@ import java.util.Set;
  * Created by marc on 25/05/13.
  */
 public class SquareSet {
-    protected Set<Square> set;
+    public Set<Square> set;
 
     public final static int SQUARE_SET_T = 0;
     public final static int SQUARE_SET_I = 1;

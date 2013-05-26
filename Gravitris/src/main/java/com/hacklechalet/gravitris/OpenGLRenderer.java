@@ -18,6 +18,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.HashSet;
+import java.util.Set;
 
 import static android.opengl.GLU.gluOrtho2D;
 import static android.util.FloatMath.sin;
@@ -34,7 +36,7 @@ public class OpenGLRenderer implements Renderer {
     private float mPreviousX;
     private float mPreviousY;
     private final float TOUCH_SCALE_FACTOR = 0.6f;
-    private  final long TIME_NEXT_SQUARESET = 1000*5;
+    private  final long TIME_NEXT_SQUARESET = 1000*6;
 
     private int width;
     private int height;
@@ -44,8 +46,6 @@ public class OpenGLRenderer implements Renderer {
     private float[] gravity; //x,y,z
 
     private SquareSet sqrS;
-
-    private Square sqr;
 
     private Wall walls[];
 
@@ -95,8 +95,6 @@ public class OpenGLRenderer implements Renderer {
         sqrS = new SquareSet();
         sqrS.add(new SquareSet(0.5f));
 
-        sqr = new Square(0.5f,3,3);
-
         Wall[] w = {
             new Wall(0.1f,20,4,0),
             new Wall(0.1f,20,-5,0),
@@ -123,6 +121,7 @@ public class OpenGLRenderer implements Renderer {
 
         if(!pause)
         {
+            checkLines();
             this.nextGen += elapsedTime;
 
             if(this.nextGen > TIME_NEXT_SQUARESET)
@@ -134,7 +133,6 @@ public class OpenGLRenderer implements Renderer {
         }
 
         sqrS.draw(gl);
-        sqr.draw(gl);
     }
 
 
@@ -184,5 +182,36 @@ public class OpenGLRenderer implements Renderer {
     public void resume()
     {
         this.pause = false;
+    }
+
+    private void checkLines()
+    {
+
+        for(int y=0;y<15;++y)
+        {
+            int nb = 0;
+
+            Set<Square> finds = new HashSet<Square>();
+            for(Square sqr : sqrS.set)
+            {
+                Vec2 pos = sqr.body.getPosition();
+                //Log.d("Gravitris "+y,""+pos.x+" "+pos.y);
+                if(pos.y >= (y -8)*3.71 && pos.y <= (y+1-8)*3.71)
+                {
+                    finds.add(sqr);
+                    ++nb;
+                }
+            }
+
+            if (nb >=game.lineSize)
+            {
+                for(Square sqr : finds)
+                {
+                    sqrS.remove(sqr);
+                    game.world.destroyBody(sqr.body);
+                }
+                game.score +=game.lineSize;
+            }
+        }
     }
 }
