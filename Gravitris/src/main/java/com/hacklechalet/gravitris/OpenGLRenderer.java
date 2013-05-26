@@ -161,7 +161,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
             }
 
             game.lineSize = (int)min(8, (max(game.score / 30.0, 5)));
-            game.TIME_NEXT_SQUARESET = (int)(1000*(max(10.0f-max(1, game.score/40.0),2.0f)));
+            game.TIME_NEXT_SQUARESET = (int)(1000*(max(10.0f-max(1, game.score/40.0),1.3f)));
             game.next((float) elapsedSec*max(1,game.score/150));
         }
 
