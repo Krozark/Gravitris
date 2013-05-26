@@ -61,6 +61,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
     private boolean pause = false;
     private GamePhysics game;
+    public int scorePlayer = 0;
 
     public void MyRenderer(Context context) {
         mContext = context;
@@ -159,9 +160,9 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
                 this.nextGen = 0;
             }
 
-            game.lineSize = min(8, (max(game.score / 20, 5)));
-            game.TIME_NEXT_SQUARESET = 1000*(max(10-max(1, game.score/10),2));
-            game.next((float) elapsedSec*(min(1,max(game.score/5,1))));
+            game.lineSize = (int)min(8, (max(game.score / 30.0, 5)));
+            game.TIME_NEXT_SQUARESET = (int)(1000*(max(10.0f-max(1, game.score/75.0),1.3f)));
+            game.next((float) elapsedSec*max(1,game.score/150));
         }
 
         sqrS.draw(gl);
@@ -242,37 +243,13 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
                     game.world.destroyBody(sqr.body);
                 }
                 game.score +=game.lineSize;
+                this.scorePlayer = game.score;
 
-
-            }
-
-            if (y >= 14 && nb > 0) //14
-            {
-                this.setLoose(true);
+                if (y >= 14)
+                {
+                    game.fail = true;
+                }
             }
         }
-    }
-
-    public int getScorePlayer()
-    {
-        return this.game.score;
-    }
-
-    public boolean getStatusGame()
-    {
-        return this.game.fail;
-    }
-
-    public boolean loose()
-    {
-        return this.game.fail;
-    }
-
-    public void setLoose(boolean loose)
-    {
-        if(loose)
-            this.setPause();
-
-        this.game.fail = loose;
     }
 }

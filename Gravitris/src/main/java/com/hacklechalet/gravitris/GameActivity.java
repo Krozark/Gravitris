@@ -101,8 +101,8 @@ public class GameActivity extends Activity implements SensorEventListener {
     public void startGame()
     {
         Display display = getWindowManager().getDefaultDisplay();
-        width = display.getWidth();  // deprecated
-        height = display.getHeight();  // deprecated
+        width = display.getWidth(); // deprecated
+        height = display.getHeight(); // deprecated
 
         row = new LinearLayout(this);
 
@@ -120,6 +120,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
         GLSurfaceView view = new GLSurfaceView(this);
         openGlRender = new OpenGLRenderer(width,height,this.gravityValues);
+        view.setOnTouchListener(openGlRender);
 
         Button buttonPause = new Button(this);
 
