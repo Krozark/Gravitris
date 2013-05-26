@@ -13,6 +13,9 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by samuel on 25/05/13.
  */
@@ -25,6 +28,9 @@ public class GameActivity extends Activity implements SensorEventListener {
     private TextView textViewScore;
     private TextView textViewResScore;
     private LinearLayout row;
+    public String stringScore = "0";
+    public Timer timer;
+    private OpenGLRenderer openGlRender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,13 +89,13 @@ public class GameActivity extends Activity implements SensorEventListener {
         textViewScore.setTextColor(Color.BLACK);
 
 
-        textViewResScore.setText(" 0 ");
+        textViewResScore.setText(stringScore);
 
         textViewResScore.setBackgroundColor(Color.DKGRAY);
         textViewResScore.setTextColor(Color.BLACK);
 
         GLSurfaceView view = new GLSurfaceView(this);
-        OpenGLRenderer openGlRender = new OpenGLRenderer(width,height,this.gravityValues, this);
+        openGlRender = new OpenGLRenderer(width,height,this.gravityValues);
 
         Button buttonPause = new Button(this);
 
@@ -114,7 +120,22 @@ public class GameActivity extends Activity implements SensorEventListener {
 
 
         this.addContentView(row, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-    }
+
+        timer = new Timer();
+
+        timer.schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        textViewResScore.setText(String.valueOf(openGlRender.scorePlayer));
+                    }
+                });
+            }
+        }, 250, 250);
+    };
 
     @Override
     public void onSensorChanged(SensorEvent event) {

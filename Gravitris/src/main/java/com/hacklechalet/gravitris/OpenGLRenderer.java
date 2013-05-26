@@ -58,19 +58,18 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
     private boolean pause = false;
     private GamePhysics game;
-
+    public int scorePlayer = 0;
 
     public void MyRenderer(Context context) {
         mContext = context;
     }
 
-    public OpenGLRenderer(int width,int height,float[] grav, Context context)
+    public OpenGLRenderer(int width,int height,float[] grav)
     {
         this.width = width;
         this.height = height;
         this.gravity = grav;
         this.nextGen = 0;
-        this.mContext = context;
 
         game = new GamePhysics();
         PhysiqueObject.world = game.world;
@@ -239,6 +238,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
                     game.world.destroyBody(sqr.body);
                 }
                 game.score +=game.lineSize;
+                this.scorePlayer = game.score;
             }
         }
     }
