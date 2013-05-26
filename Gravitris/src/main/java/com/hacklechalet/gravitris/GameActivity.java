@@ -155,7 +155,6 @@ public class GameActivity extends Activity implements SensorEventListener {
             {
                 runOnUiThread(new Runnable() {
                     public void run() {
-                        textViewResScore.setText(String.valueOf(openGlRender.getScorePlayer()));
                         stringScore = String.valueOf(openGlRender.getScorePlayer());
 
                         //if(openGlRender.getStatusGame() == true)
