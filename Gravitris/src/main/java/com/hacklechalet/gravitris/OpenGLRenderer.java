@@ -164,7 +164,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
             game.next((float) elapsedSec*max(game.score/75,1));
         }
 
-        sqrS.draw(gl);
+            sqrS.draw(gl);
     }
 
 

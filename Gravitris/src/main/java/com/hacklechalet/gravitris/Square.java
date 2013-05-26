@@ -32,7 +32,7 @@ public class Square extends  PhysiqueObject{
     public final static int DIRECTION_BOTTOM = 3;
     public final static int DIRECTION_LEFT = 4;
 
-    float[] colors = {
+    public static float[] colors = {
             1f, 0f, 0f, 1f, // vertex 0 red
             0f, 1f, 0f, 1f, // vertex 1 green
             0f, 0f, 1f, 1f, // vertex 2 blue
