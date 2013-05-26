@@ -99,6 +99,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
         GLSurfaceView view = new GLSurfaceView(this);
         openGlRender = new OpenGLRenderer(width,height,this.gravityValues);
+        view.setOnTouchListener(openGlRender);
 
         Button buttonPause = new Button(this);
 
