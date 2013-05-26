@@ -4,6 +4,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
+import org.jbox2d.dynamics.joints.RopeJointDef;
 
 import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
@@ -12,6 +13,9 @@ import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
 import java.util.Vector;
+
+import static android.util.FloatMath.cos;
+import static android.util.FloatMath.sin;
 
 public class Square extends  PhysiqueObject{
     // Our vertices.
@@ -117,7 +121,8 @@ public class Square extends  PhysiqueObject{
         DistanceJointDef jd = new DistanceJointDef();
         jd.initialize(body,res.body,body.getWorldCenter(), res.body.getWorldCenter());
         jd.collideConnected = true;
-        jd.frequencyHz = 0.5f;
+        jd.frequencyHz = 4.0f;
+        jd.dampingRatio = 0.5f;
 
         world.createJoint(jd);
 
@@ -127,28 +132,42 @@ public class Square extends  PhysiqueObject{
 
     private void setPosition(float x,float y)
     {
+        float angle = body.getAngle();
+        float _cos = cos(angle);
+        float _sin = sin(angle);
+
+        //x2 = (cos(radials) * x1) - (sin(radials) * y1);
+        //y2 = (sin(radials) * x1) + (cos(radials) * y1);
+
         top_left.x = x*size;
         top_left.y = y*size;
+        
+        //top_left.x += _cos*size - _sin *size;
+        //top_left.y += _sin*size + _cos*size;
 
         top_right.x = x*size+size;
         top_right.y = y*size;
 
+        //top_right.x += _cos*size - _sin *size;
+        //top_right.y += _sin*size + _cos*size;
+
         bottom_left.x = x*size;
         bottom_left.y = y*size+size;
 
+        //bottom_left.x += _cos*size - _sin *size;
+        //bottom_left.y += _sin*size + _cos*size;
+
         bottom_right.x = x*size+size;
         bottom_right.y = y*size+size;
+
+        //bottom_right.x += _cos*size - _sin *size;
+        //bottom_right.y += _sin*size + _cos*size;
     }
 
     private void majPosition()
     {
         Vec2 origine = body.getPosition();
         setPosition(toPix(origine.x),toPix(origine.y));
-    }
-
-    private void setRotation(float angle)
-    {
-
     }
 
     public Vector2<Float> getPosition()
@@ -165,14 +184,9 @@ public class Square extends  PhysiqueObject{
     {
         return this.top_left.x > x && this.bottom_right.x < x && this.top_left.y < y && this.bottom_right.y > y;
     }
-    private void next()
-    {
-        majPosition();
-        setRotation(-toDeg(body.getAngle()));
-    }
 
     public void draw(GL10 gl) {
-        next();
+        majPosition();
 
         float matrixVertices[] = {
                 top_left.x,  top_left.y, 0.0f,  // 0, Top Left
@@ -188,6 +202,7 @@ public class Square extends  PhysiqueObject{
         vertexBuffer.put(matrixVertices);
         vertexBuffer.position(0);
 
+
         // Counter-clockwise winding.
         gl.glFrontFace(GL10.GL_CCW);
         // Enable face culling.
@@ -202,9 +217,9 @@ public class Square extends  PhysiqueObject{
         // coordinates to use when rendering.
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 
-        gl.glEnableClientState(GL10.GL_COLOR_ARRAY); // NEW LINE ADDED.
+        gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
         // Point out the where the color buffer is.
-        gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer); // NEW LINE ADDED
+        gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
 
         gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_SHORT, indexBuffer);
 

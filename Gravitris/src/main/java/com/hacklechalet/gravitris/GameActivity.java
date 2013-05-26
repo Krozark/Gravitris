@@ -1,6 +1,7 @@
 package com.hacklechalet.gravitris;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -13,6 +14,9 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 /**
  * Created by samuel on 25/05/13.
  */
@@ -20,11 +24,20 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     protected SensorManager sensorManager;
     protected Sensor sensor;
-    protected float[] gravityValues;
+    public float[] gravityValues;
     public final static int REFRESH_RATE = 1000000 / 60;
+    private TextView textViewScore;
+    private TextView textViewResScore;
+    private LinearLayout row;
+    public String stringScore = "0";
+    public Timer timer;
+    private OpenGLRenderer openGlRender;
+
+    public int height, width;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        textViewResScore = new TextView(this);
         this.gravityValues = new float[3];
         super.onCreate(savedInstanceState);
 
@@ -35,6 +48,8 @@ public class GameActivity extends Activity implements SensorEventListener {
         this.sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         this.sensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         this.sensorManager.registerListener(this, sensor, GameActivity.REFRESH_RATE);
+
+
 
         this.startGame();
 
@@ -65,31 +80,25 @@ public class GameActivity extends Activity implements SensorEventListener {
     public void startGame()
     {
         Display display = getWindowManager().getDefaultDisplay();
-        int width = display.getWidth();  // deprecated
-        int height = display.getHeight();  // deprecated
+        width = display.getWidth(); // deprecated
+        height = display.getHeight(); // deprecated
 
+        row = new LinearLayout(this);
 
-        GLSurfaceView view = new GLSurfaceView(this);
-        OpenGLRenderer openGlRender = new OpenGLRenderer(width,height,this.gravityValues);
-        view.setRenderer(openGlRender);
-        //view.setOnTouchListener(openGlRender);
-
-
-        this.setContentView(view);
-
-        LinearLayout row = new LinearLayout(this);
-
-        TextView textViewScore = new TextView(this);
+        textViewScore = new TextView(this);
         textViewScore.setText("Score :");
 
         textViewScore.setBackgroundColor(Color.DKGRAY);
         textViewScore.setTextColor(Color.BLACK);
 
-        TextView textViewResScore = new TextView(this);
-        textViewResScore.setText(" 0 ");
+
+        textViewResScore.setText(stringScore);
 
         textViewResScore.setBackgroundColor(Color.DKGRAY);
         textViewResScore.setTextColor(Color.BLACK);
+
+        GLSurfaceView view = new GLSurfaceView(this);
+        openGlRender = new OpenGLRenderer(width,height,this.gravityValues);
 
         Button buttonPause = new Button(this);
 
@@ -107,8 +116,49 @@ public class GameActivity extends Activity implements SensorEventListener {
         row.addView(textViewResScore, 1);
         row.addView(buttonPause, 2);
 
+        view.setRenderer(openGlRender);
+        view.setOnTouchListener(openGlRender);
+
+        this.setContentView(view);
+
+
         this.addContentView(row, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-    }
+
+        timer = new Timer();
+
+        timer.schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                runOnUiThread(new Runnable() {
+                    public void run() {
+                        textViewResScore.setText(String.valueOf(openGlRender.getScorePlayer()));
+
+                        //if(openGlRender.getStatusGame() == true)
+                        //{
+                        if(openGlRender.loose())
+                        {
+                            finish();
+                        }
+                            /*
+Dialog d = new Dialog(getBaseContext());
+d.setTitle("Perdu");
+
+LinearLayout l = new LinearLayout(getBaseContext());
+TextView tLoose = new TextView(getBaseContext());
+tLoose.setText("Vous avez perdu, cliquer pour recommencer !");
+
+l.addView(tLoose);
+
+d.setContentView(l);
+*/
+                        //}
+                    }
+                });
+            }
+        }, 250, 250);
+    };
 
     @Override
     public void onSensorChanged(SensorEvent event) {

@@ -13,6 +13,7 @@ import android.opengl.GLSurfaceView.Renderer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 import org.jbox2d.common.Vec2;
 
 import java.nio.ByteBuffer;
@@ -24,6 +25,9 @@ import java.util.Set;
 
 import static android.opengl.GLU.gluOrtho2D;
 import static android.util.FloatMath.sin;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static org.jbox2d.common.MathUtils.clamp;
 
 public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     private Context mContext;
@@ -37,7 +41,8 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     private float mPreviousX;
     private float mPreviousY;
     private final float TOUCH_SCALE_FACTOR = 0.6f;
-    private  final long TIME_NEXT_SQUARESET = 1000*6;
+
+    private final float SIZE_SQUARE = 0.5f;
 
     private int width;
     private int height;
@@ -56,7 +61,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
     private boolean pause = false;
     private GamePhysics game;
-
+    public int scorePlayer = 0;
 
     public void MyRenderer(Context context) {
         mContext = context;
@@ -71,6 +76,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
         game = new GamePhysics();
         PhysiqueObject.world = game.world;
+        game.score = 0;
 
 
     }
@@ -95,6 +101,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
         gl.glEnableClientState(GL10.GL_VERTEX_ARRAY);
 
         sqrS = new SquareSet();
+
         SquareSet firstFigure = new SquareSet(0.5f);
         sqrS.add(firstFigure);
         coloredSquares = new SquareSet[6];
@@ -133,26 +140,29 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
             checkLines();
             this.nextGen += elapsedTime;
 
-            if(this.nextGen > TIME_NEXT_SQUARESET)
+            if(this.nextGen > game.TIME_NEXT_SQUARESET)
             {
                 SquareSet nextFigure;
                 if(Math.abs(this.gravity[1]) > Math.abs(this.gravity[0]))
                 {
-                    nextFigure = new SquareSet(0.5f, -1, 0);
+                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 0);
                 }
                 else if (this.gravity[0] > 0)
                 {
-                    nextFigure = new SquareSet(0.5f, -1, 1);
+                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 1);
                 }
                 else
                 {
-                    nextFigure = new SquareSet(0.5f, -1, 2);
+                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 2);
                 }
                 sqrS.add(nextFigure);
                 coloredSquares[nextFigure.getType()].add(nextFigure);
                 this.nextGen = 0;
             }
-            game.next((float) elapsedSec);
+
+            game.lineSize = min(8, (max(game.score / 20, 5)));
+            game.TIME_NEXT_SQUARESET = 1000*(max(10-max(1, game.score/10),2));
+            game.next((float) elapsedSec*(min(1,max(game.score/5,1))));
         }
 
         sqrS.draw(gl);
@@ -219,8 +229,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
     private void checkLines()
     {
-
-        for(int y=0;y<15;++y)
+        for(int y=-1;y<15;++y)
         {
             int nb = 0;
 
@@ -244,7 +253,35 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
                     game.world.destroyBody(sqr.body);
                 }
                 game.score +=game.lineSize;
+                this.scorePlayer = game.score;
+
+                if (y >= 14)
+                {
+                    game.fail = true;
+                }
             }
         }
+    }
+    public int getScorePlayer()
+    {
+        return this.game.score;
+    }
+
+    public boolean getStatusGame()
+    {
+        return this.game.fail;
+    }
+
+    public boolean loose()
+    {
+        return this.game.fail;
+    }
+
+    public void setLoose(boolean loose)
+    {
+        if(loose)
+            this.setPause();
+
+        this.game.fail = loose;
     }
 }
