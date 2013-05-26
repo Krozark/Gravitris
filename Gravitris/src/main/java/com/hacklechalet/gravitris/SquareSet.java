@@ -9,7 +9,7 @@ import java.util.Set;
  * Created by marc on 25/05/13.
  */
 public class SquareSet {
-    protected Set<Square> set;
+    public Set<Square> set;
 
     public final static int SQUARE_SET_T = 0;
     public final static int SQUARE_SET_I = 1;
@@ -28,13 +28,25 @@ public class SquareSet {
     }
     public SquareSet(float size, int type)
     {
+        this(size, type, 0);
+    }
+    public SquareSet(float size, int type, int orientation)
+    {
         this();
         if(type < 0 || type > 5)
         {
             Random rnd = new Random();
             type = rnd.nextInt(5);
         }
-        Square primitive = new Square(size, 0, 0);
+        Square primitive;
+        if(orientation == 0) // Portrait
+        {
+            primitive = new Square(size, -1, 5);
+        }
+        else // Landscape
+        {
+            primitive = new Square(size, 3, -5);
+        }
         this.set.add(primitive);
         switch(type)
         {
