@@ -4,6 +4,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
+import org.jbox2d.dynamics.joints.RopeJointDef;
 
 import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
@@ -117,7 +118,8 @@ public class Square extends  PhysiqueObject{
         DistanceJointDef jd = new DistanceJointDef();
         jd.initialize(body,res.body,body.getWorldCenter(), res.body.getWorldCenter());
         jd.collideConnected = true;
-        jd.frequencyHz = 0.5f;
+        jd.frequencyHz = 4.0f;
+        jd.dampingRatio = 0.5f;
 
         world.createJoint(jd);
 
@@ -148,7 +150,7 @@ public class Square extends  PhysiqueObject{
 
     private void setRotation(float angle)
     {
-
+        
     }
 
     public Vector2<Float> getPosition()

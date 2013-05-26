@@ -13,9 +13,11 @@ public class GamePhysics {
 
     public int lineSize = 8;
     public  int score = 0;
+    public boolean fail;
 
     public GamePhysics()
     {
+        fail = false;
         Vec2 gravity = new Vec2(0.f,9.8f);
         world = new World(gravity);
     }
