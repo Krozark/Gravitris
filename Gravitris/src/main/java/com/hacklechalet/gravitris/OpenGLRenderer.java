@@ -61,6 +61,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
     private boolean pause = false;
     private GamePhysics game;
+    public int scorePlayer = 0;
 
     public void MyRenderer(Context context) {
         mContext = context;
@@ -83,8 +84,8 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
         // Set the background color to black ( rgba ).
         gl.glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
-        //float lowerX = -25.0f, upperX = 25.0f, lowerY = -5.0f, upperY = 25.0f;
-        //gluOrtho2D(gl, lowerX, upperX, lowerY, upperY);
+        float lowerX = -25.0f, upperX = 25.0f, lowerY = -5.0f, upperY = 25.0f;
+        gluOrtho2D(gl, lowerX, upperX, lowerY, upperY);
         // Enable Smooth Shading, default not really needed.
         //gl.glShadeModel(GL10.GL_SMOOTH);
         // Depth buffer setup.
@@ -159,7 +160,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
                 this.nextGen = 0;
             }
 
-            game.lineSize = (int)min(8, (max(game.score / 10.0, 5)));
+            game.lineSize = (int)min(8, (max(game.score / 30.0, 5)));
             game.TIME_NEXT_SQUARESET = (int)(1000*(max(10.0f-max(1, game.score/40.0),2.0f)));
             game.next((float) elapsedSec*max(1,game.score/150));
         }
@@ -191,8 +192,6 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     }
 
     public boolean onTouch(View v, MotionEvent e) {
-        //float x = (e.getX() / v.getWidth()) * 9.0f - 5.0f;
-        //float y = (e.getY() / v.getHeight()) * (8.3f + 6.2f) - 8.3f;
         float x = e.getX();
         float y = e.getY();
         switch (e.getAction()) {
@@ -205,14 +204,6 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
         }
         mPreviousX = x;
         mPreviousY = y;
-        for(Square square : this.sqrS.set)
-        {
-            if(square.contains(x, y))
-            {
-                Log.d("ontouch", "square !");
-                square.body.applyAngularImpulse(mAngleX);
-            }
-        }
         return true;
     }
 
@@ -252,36 +243,13 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
                     game.world.destroyBody(sqr.body);
                 }
                 game.score +=game.lineSize;
+                this.scorePlayer = game.score;
 
-
-            }
-
-            if (y >= 14 && nb > 0) //14
-            {
-                this.setLoose(true);
+                if (y >= 14)
+                {
+                    game.fail = true;
+                }
             }
         }
-    }
-    public int getScorePlayer()
-    {
-        return this.game.score;
-    }
-
-    public boolean getStatusGame()
-    {
-        return this.game.fail;
-    }
-
-    public boolean loose()
-    {
-        return this.game.fail;
-    }
-
-    public void setLoose(boolean loose)
-    {
-        if(loose)
-            this.setPause();
-
-        this.game.fail = loose;
     }
 }
