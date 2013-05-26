@@ -213,7 +213,6 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
     private void checkLines()
     {
-
         for(int y=0;y<15;++y)
         {
             int nb = 0;
@@ -239,6 +238,11 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
                 }
                 game.score +=game.lineSize;
                 this.scorePlayer = game.score;
+
+                if (y >= 14)
+                {
+                    game.fail = true;
+                }
             }
         }
     }
