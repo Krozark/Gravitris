@@ -248,7 +248,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
             }
 
-            if (y >= 14 && nb > 0) //14
+            if(y >= 14 && nb > 0) //14
             {
                 this.setLoose(true);
             }
