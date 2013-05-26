@@ -160,9 +160,9 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
                 this.nextGen = 0;
             }
 
-            game.lineSize = min(8, (max(game.score / 20, 5)));
-            game.TIME_NEXT_SQUARESET = 1000*(max(10-max(1, game.score/10),2));
-            game.next((float) elapsedSec*(min(1,max(game.score/5,1))));
+            game.lineSize = (int)min(8, (max(game.score / 10.0, 5)));
+            game.TIME_NEXT_SQUARESET = (int)(1000*(max(10.0f-max(1, game.score/40.0),2.0f)));
+            game.next((float) elapsedSec*max(1,game.score/150));
         }
 
         sqrS.draw(gl);
