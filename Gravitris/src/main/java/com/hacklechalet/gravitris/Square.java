@@ -132,7 +132,7 @@ public class Square extends  PhysiqueObject{
 
     private void setPosition(float x,float y)
     {
-        float angle = -body.getAngle();
+        float angle = body.getAngle();
         float _cos = cos(angle);
         float _sin = sin(angle);
 
@@ -142,28 +142,26 @@ public class Square extends  PhysiqueObject{
         top_left.x = x*size;
         top_left.y = y*size;
         
-        //top_left.x = _cos*top_left.x - _sin * top_left.y;
-        //top_left.y = _sin*top_left.x + _cos*top_left.y;
+        //top_left.x += _cos*size - _sin *size;
+        //top_left.y += _sin*size + _cos*size;
 
         top_right.x = x*size+size;
         top_right.y = y*size;
 
-        //top_right.x = _cos*top_right.x - _sin * top_right.y;
-        //top_right.y = _sin*top_right.x + _cos*top_right.y;
-        
+        //top_right.x += _cos*size - _sin *size;
+        //top_right.y += _sin*size + _cos*size;
+
         bottom_left.x = x*size;
         bottom_left.y = y*size+size;
 
-        //bottom_left.x = _cos*bottom_left.x - _sin * bottom_left.y;
-        //bottom_left.y = _sin*bottom_left.x + _cos*bottom_left.y;
+        //bottom_left.x += _cos*size - _sin *size;
+        //bottom_left.y += _sin*size + _cos*size;
 
         bottom_right.x = x*size+size;
         bottom_right.y = y*size+size;
 
-        //bottom_right.x = _cos*bottom_right.x - _sin * bottom_right.y;
-        //bottom_right.y = _sin*bottom_right.x + _cos*bottom_right.y;
-
-        body.getAngle();
+        //bottom_right.x += _cos*size - _sin *size;
+        //bottom_right.y += _sin*size + _cos*size;
     }
 
     private void majPosition()
@@ -182,13 +180,8 @@ public class Square extends  PhysiqueObject{
         size = _size;
     }
 
-    private void next()
-    {
-        majPosition();
-    }
-
     public void draw(GL10 gl) {
-        next();
+        majPosition();
 
         float matrixVertices[] = {
                 top_left.x,  top_left.y, 0.0f,  // 0, Top Left
@@ -219,9 +212,9 @@ public class Square extends  PhysiqueObject{
         // coordinates to use when rendering.
         gl.glVertexPointer(3, GL10.GL_FLOAT, 0, vertexBuffer);
 
-        gl.glEnableClientState(GL10.GL_COLOR_ARRAY); // NEW LINE ADDED.
+        gl.glEnableClientState(GL10.GL_COLOR_ARRAY);
         // Point out the where the color buffer is.
-        gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer); // NEW LINE ADDED
+        gl.glColorPointer(4, GL10.GL_FLOAT, 0, colorBuffer);
 
         gl.glDrawElements(GL10.GL_TRIANGLES, indices.length, GL10.GL_UNSIGNED_SHORT, indexBuffer);
 

@@ -11,9 +11,10 @@ public class GamePhysics {
     private int velocityIter = 8;
     private int positionIter = 3;
 
-    public int lineSize = 8;
+    public int lineSize = 6;
     public  int score = 0;
     public boolean fail;
+    public long TIME_NEXT_SQUARESET = 1000*5;
 
     public GamePhysics()
     {

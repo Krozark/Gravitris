@@ -25,6 +25,9 @@ import java.util.Set;
 
 import static android.opengl.GLU.gluOrtho2D;
 import static android.util.FloatMath.sin;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static org.jbox2d.common.MathUtils.clamp;
 
 public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     private Context mContext;
@@ -38,7 +41,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     private float mPreviousX;
     private float mPreviousY;
     private final float TOUCH_SCALE_FACTOR = 0.6f;
-    private final long TIME_NEXT_SQUARESET = 1000*5;
+
     private final float SIZE_SQUARE = 0.5f;
 
     private int width;
@@ -138,7 +141,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
             checkLines();
             this.nextGen += elapsedTime;
 
-            if(this.nextGen > TIME_NEXT_SQUARESET)
+            if(this.nextGen > game.TIME_NEXT_SQUARESET)
             {
                 SquareSet nextFigure;
                 if(Math.abs(this.gravity[1]) > Math.abs(this.gravity[0]))
@@ -157,7 +160,10 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
                 coloredSquares[nextFigure.getType()].add(nextFigure);
                 this.nextGen = 0;
             }
-            game.next((float) elapsedSec);
+
+            game.lineSize = min(8, (max(game.score / 20, 5)));
+            game.TIME_NEXT_SQUARESET = 1000*(max(10-max(1, game.score/10),2));
+            game.next((float) elapsedSec*(min(1,max(game.score/5,1))));
         }
 
         sqrS.draw(gl);
@@ -214,7 +220,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
     private void checkLines()
     {
-        for(int y=0;y<15;++y)
+        for(int y=-1;y<15;++y)
         {
             int nb = 0;
 
