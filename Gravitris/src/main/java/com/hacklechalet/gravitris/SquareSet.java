@@ -11,6 +11,7 @@ import java.util.Set;
 public class SquareSet {
     public Set<Square> set;
 
+    protected int type = -1;
     public final static int SQUARE_SET_T = 0;
     public final static int SQUARE_SET_I = 1;
     public final static int SQUARE_SET_L = 2;
@@ -43,9 +44,13 @@ public class SquareSet {
         {
             primitive = new Square(size, -1, 5);
         }
-        else // Landscape
+        else if (orientation == 1)// Landscape
         {
-            primitive = new Square(size, 3, -5);
+            primitive = new Square(size, 1.5f, -1);
+        }
+        else
+        {
+            primitive = new Square(size, -3.5f, -1);
         }
         this.set.add(primitive);
         switch(type)
@@ -87,6 +92,7 @@ public class SquareSet {
                 this.set.add(primitive.genNeighboor(Square.DIRECTION_BOTTOM));
                 this.set.add(rightC.genNeighboor(Square.DIRECTION_BOTTOM));
         }
+        this.type = type;
     }
 
     public void add(Square square)
@@ -122,5 +128,9 @@ public class SquareSet {
         {
             square.draw(gl);
         }
+    }
+    public int getType()
+    {
+        return this.type;
     }
 }

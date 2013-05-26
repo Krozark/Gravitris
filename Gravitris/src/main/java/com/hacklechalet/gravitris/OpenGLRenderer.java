@@ -49,6 +49,7 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
     private float[] gravity; //x,y,z
 
     private SquareSet sqrS;
+    private SquareSet coloredSquares[];
 
     private Wall walls[];
 
@@ -99,6 +100,15 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
         sqrS = new SquareSet();
 
+        SquareSet firstFigure = new SquareSet(0.5f);
+        sqrS.add(firstFigure);
+        coloredSquares = new SquareSet[6];
+        for(int i = 0; i < 6; i++)
+        {
+            coloredSquares[i] = new SquareSet();
+        }
+        coloredSquares[firstFigure.getType()].add(firstFigure);
+
         Wall[] w = {
             new Wall(0.1f,20,4,0),
             new Wall(0.1f,20,-5,0),
@@ -130,14 +140,21 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
 
             if(this.nextGen > TIME_NEXT_SQUARESET)
             {
+                SquareSet nextFigure;
                 if(Math.abs(this.gravity[1]) > Math.abs(this.gravity[0]))
                 {
-                    sqrS.add(new SquareSet(SIZE_SQUARE, 1));
+                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 0);
+                }
+                else if (this.gravity[0] > 0)
+                {
+                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 1);
                 }
                 else
                 {
-                    sqrS.add(new SquareSet(SIZE_SQUARE, 0));
+                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 2);
                 }
+                sqrS.add(nextFigure);
+                coloredSquares[nextFigure.getType()].add(nextFigure);
                 this.nextGen = 0;
             }
             game.next((float) elapsedSec);
