@@ -19,7 +19,6 @@ import static android.util.FloatMath.sin;
 
 public class Square extends  PhysiqueObject{
     // Our vertices.
-    private Vector2<Float> center;
     private Vector2<Float> top_left; //0,0
     private Vector2<Float> top_right;//1,0
     private Vector2<Float> bottom_left;//1,1
@@ -45,7 +44,6 @@ public class Square extends  PhysiqueObject{
     private ShortBuffer indexBuffer;
     private FloatBuffer colorBuffer;
 
-    private Vector<Fixture> joinFixtureList;
 
     private float size =1;
 
@@ -77,8 +75,6 @@ public class Square extends  PhysiqueObject{
         fixtureDef.shape = shape;
         fixture = body.createFixture(fixtureDef);
         //majPosition();
-
-        joinFixtureList = new Vector<Fixture>();
     }
 
 
