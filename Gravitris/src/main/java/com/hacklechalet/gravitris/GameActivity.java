@@ -181,7 +181,7 @@ public class GameActivity extends Activity implements SensorEventListener {
                 });
             }
         }, 250, 250);
-    };
+    }
 
     public void showScore()
     {

@@ -15,9 +15,9 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity implements SensorEventListener {
 
-    protected SensorManager sensorManager;
-    protected Sensor sensor;
-    public final static int REFRESH_RATE = 1000000 / 60;
+    //protected SensorManager sensorManager;
+    //protected Sensor sensor;
+    //public final static int REFRESH_RATE = 1000000 / 60;
     GameActivity gameActivity;
 
     @Override
@@ -30,10 +30,13 @@ public class MainActivity extends Activity implements SensorEventListener {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON, WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
+        /*
         this.sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         this.sensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
         this.sensorManager.registerListener(this, sensor, MainActivity.REFRESH_RATE);
+        */
         this.setContentView(R.layout.activity_main);
+
 
         gameActivity = new GameActivity();
         //this.startGame();
@@ -41,19 +44,19 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     @Override
     protected void onPause() {
-        this.sensorManager.unregisterListener(this);
+        //this.sensorManager.unregisterListener(this);
         super.onPause();
     }
     @Override
     protected void onResume() {
-        this.sensorManager.registerListener(this, sensor, MainActivity.REFRESH_RATE);
+        //this.sensorManager.registerListener(this, sensor, MainActivity.REFRESH_RATE);
         super.onResume();
     }
 
     @Override
     protected void onDestroy()
     {
-        this.sensorManager.unregisterListener(this);
+        //this.sensorManager.unregisterListener(this);
         super.onDestroy();
     }
 
@@ -66,16 +69,18 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     public void onSensorChanged(SensorEvent event)
     {
+    /*
         if (event.sensor.getType() == Sensor.TYPE_GRAVITY)
         {
-/*            TextView xText = (TextView)findViewById(R.id.textView_valueX);
+            TextView xText = (TextView)findViewById(R.id.textView_valueX);
             TextView yText = (TextView)findViewById(R.id.textView_valueY);
             TextView zText = (TextView)findViewById(R.id.textView_valueZ);
             xText.setText(String.valueOf(event.values[0]));
             yText.setText(String.valueOf(event.values[1]));
             zText.setText(String.valueOf(event.values[2]));
-            */
+
         }
+    */
     }
     public void goToGameActivity(View v)
     {

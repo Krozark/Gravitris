@@ -41,20 +41,20 @@ public class SquareSet {
         }
         Square primitive;
         float x,y;
-        if(orientation == 0) // Portrait
-        {
-            x = -1;
-            y =5;
-        }
-        else if (orientation == 1)// Landscape
+        if (orientation == 1)// Landscape
         {
             x = 1.5f;
-            y = -1;
+            y = -1.0f;
         }
-        else
+        else if (orientation == 2) // Landscape in the other way
         {
-            x = -3.5f;
-            y=-1;
+            x = -3.0f;
+            y = -1.0f;
+        }
+        else // (orientation == 0)  Portrait
+        {
+            x = -1;
+            y = 5;
         }
 
 
@@ -62,7 +62,7 @@ public class SquareSet {
         {
             case SQUARE_SET_T:
             {
-                float[] c= {
+                float[] c = {
                         1f, 0f, 0f, 1f, // vertex 0 red
                         1f, 0f, 0f, 1f,
                         1f, 0f, 0f, 1f,
