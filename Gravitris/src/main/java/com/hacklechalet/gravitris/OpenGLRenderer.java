@@ -135,18 +135,19 @@ public class OpenGLRenderer implements Renderer, View.OnTouchListener {
             if(this.nextGen > game.TIME_NEXT_SQUARESET)
             {
                 SquareSet nextFigure;
-                if(Math.abs(this.gravity[1]) > Math.abs(this.gravity[0]))
+                if((Math.abs(this.gravity[1]) + 1) > Math.abs(this.gravity[0])) // Portrait, with a little bit more priority
                 {
                     nextFigure = new SquareSet(SIZE_SQUARE, -1, 0);
                 }
-                else if (this.gravity[0] > 0)
-                {
-                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 1);
-                }
-                else
+                else if(this.gravity[0] < 0) // Landscape in one way
                 {
                     nextFigure = new SquareSet(SIZE_SQUARE, -1, 2);
                 }
+                else // if (this.gravity[0] > 0) // Landscape in other way
+                {
+                    nextFigure = new SquareSet(SIZE_SQUARE, -1, 1);
+                }
+
                 sqrS.add(nextFigure);
                 this.nextGen = 0;
             }
