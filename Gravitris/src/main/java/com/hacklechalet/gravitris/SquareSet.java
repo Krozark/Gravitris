@@ -15,9 +15,11 @@ public class SquareSet {
     public final static int SQUARE_SET_T = 0;
     public final static int SQUARE_SET_I = 1;
     public final static int SQUARE_SET_L = 2;
-    public final static int SQUARE_SET_S = 3;
-    public final static int SQUARE_SET_C = 4;
-    public final static int SQUARE_SET_L2 = 5;
+    public final static int SQUARE_SET_L2 = 3;
+    public final static int SQUARE_SET_S = 4;
+    public final static int SQUARE_SET_S2 = 5;
+    public final static int SQUARE_SET_C = 6;
+
 
     public SquareSet()
     {
@@ -34,10 +36,10 @@ public class SquareSet {
     public SquareSet(float size, int type, int orientation)
     {
         this();
-        if(type < 0 || type > 5)
+        if(type < 0 || type > 6)
         {
             Random rnd = new Random();
-            type = rnd.nextInt(5);
+            type = rnd.nextInt(6);
         }
         Square primitive;
         float x,y;
@@ -53,11 +55,12 @@ public class SquareSet {
         }
         else // (orientation == 0)  Portrait
         {
-            x = -1;
-            y = 5;
+            x = -0.5f;
+            y = 4.4f;
         }
 
-
+        Random rd = new Random();
+        int choice;
         switch(type)
         {
             case SQUARE_SET_T:
@@ -70,10 +73,46 @@ public class SquareSet {
                 };
                 Square.colors = c;
                 primitive = new Square(size, x,y);
+                // Choice between the 4 different forms
+                choice = rd.nextInt(3);
+                Square bottom;
                 this.set.add(primitive);
-                this.set.add(primitive.genNeighboor(Square.DIRECTION_LEFT));
-                this.set.add(primitive.genNeighboor(Square.DIRECTION_RIGHT));
-                this.set.add(primitive.genNeighboor(Square.DIRECTION_BOTTOM));
+                switch(choice)
+                {
+                    // ###
+                    //  #
+                    case 0:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_LEFT));
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_RIGHT));
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_BOTTOM));
+                        break;
+                    //  #
+                    // ###
+                    case 1:
+                        bottom = primitive.genNeighboor(Square.DIRECTION_BOTTOM);
+                        this.set.add(bottom);
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_LEFT));
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_RIGHT));
+                        break;
+                    // #
+                    // ##
+                    // #
+                    case 2:
+                        bottom = primitive.genNeighboor(Square.DIRECTION_BOTTOM);
+                        this.set.add(bottom);
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_BOTTOM));
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_RIGHT));
+                        break;
+                    //  #
+                    // ##
+                    //  #
+                    case 3:
+                    default:
+                        bottom = primitive.genNeighboor(Square.DIRECTION_BOTTOM);
+                        this.set.add(bottom);
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_BOTTOM));
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_LEFT));
+                }
 
             }break;
             case SQUARE_SET_I:
@@ -87,10 +126,28 @@ public class SquareSet {
                 Square.colors = c;
                 primitive = new Square(size, x,y);
                 this.set.add(primitive);
-                Square left = primitive.genNeighboor(Square.DIRECTION_LEFT);
-                this.set.add(left);
-                this.set.add(left.genNeighboor(Square.DIRECTION_LEFT));
-                this.set.add(primitive.genNeighboor(Square.DIRECTION_RIGHT));
+                choice = rd.nextInt(1);
+                switch(choice)
+                {
+                    // ####
+                    case 0:
+                        Square left = primitive.genNeighboor(Square.DIRECTION_LEFT);
+                        this.set.add(left);
+                        this.set.add(left.genNeighboor(Square.DIRECTION_LEFT));
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_RIGHT));
+                        break;
+                    // #
+                    // #
+                    // #
+                    // #
+                    case 1:
+                    default:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_TOP));
+                        Square bottom = primitive.genNeighboor(Square.DIRECTION_BOTTOM);
+                        this.set.add(bottom);
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_BOTTOM));
+                }
+
             }break;
             case SQUARE_SET_L:
             {
@@ -103,10 +160,47 @@ public class SquareSet {
                 Square.colors = c;
                 primitive = new Square(size, x,y);
                 this.set.add(primitive);
-                Square right = primitive.genNeighboor(Square.DIRECTION_RIGHT);
-                this.set.add(right);
-                this.set.add(right.genNeighboor(Square.DIRECTION_RIGHT));
-                this.set.add(primitive.genNeighboor(Square.DIRECTION_BOTTOM));
+                choice = rd.nextInt(3);
+                Square bottom;
+                Square right;
+                switch (choice)
+                {
+                    // ###
+                    //   #
+                    case 0:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_LEFT));
+                        right = primitive.genNeighboor(Square.DIRECTION_RIGHT);
+                        this.set.add(right);
+                        this.set.add(right.genNeighboor(Square.DIRECTION_BOTTOM));
+                        break;
+                    //  #
+                    //  #
+                    // ##
+                    case 1:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_TOP));
+                        bottom = primitive.genNeighboor(Square.DIRECTION_BOTTOM);
+                        this.set.add(bottom);
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_LEFT));
+                        break;
+                    // #
+                    // ###
+                    case 2:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_TOP));
+                        right = primitive.genNeighboor(Square.DIRECTION_RIGHT);
+                        this.set.add(right);
+                        this.set.add(right.genNeighboor(Square.DIRECTION_RIGHT));
+                        break;
+                    // ##
+                    // #
+                    // #
+                    case 3:
+                    default:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_RIGHT));
+                        bottom = primitive.genNeighboor(Square.DIRECTION_BOTTOM);
+                        this.set.add(bottom);
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_BOTTOM));
+                }
+
             }break;
             case SQUARE_SET_L2:
             {
@@ -118,11 +212,48 @@ public class SquareSet {
                 };
                 Square.colors = c;
                 primitive = new Square(size, x,y);
+                Square right;
+                Square bottom;
                 this.set.add(primitive);
-                Square right2 = primitive.genNeighboor(Square.DIRECTION_RIGHT);
-                this.set.add(right2);
-                this.set.add(right2.genNeighboor(Square.DIRECTION_RIGHT));
-                this.set.add(primitive.genNeighboor(Square.DIRECTION_TOP));
+                choice = rd.nextInt(3);
+                switch(choice)
+                {
+                    //   #
+                    // ###
+                    case 0:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_LEFT));
+                        right = primitive.genNeighboor(Square.DIRECTION_RIGHT);
+                        this.set.add(right);
+                        this.set.add(right.genNeighboor(Square.DIRECTION_TOP));
+                        break;
+                    // #
+                    // #
+                    // ##
+                    case 1:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_TOP));
+                        bottom = primitive.genNeighboor(Square.DIRECTION_BOTTOM);
+                        this.set.add(bottom);
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_RIGHT));
+                        break;
+                    // ###
+                    // #
+                    case 2:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_RIGHT));
+                        Square left = primitive.genNeighboor(Square.DIRECTION_LEFT);
+                        this.set.add(left);
+                        this.set.add(left.genNeighboor(Square.DIRECTION_BOTTOM));
+                        break;
+                    // ##
+                    //  #
+                    //  #
+                    case 3:
+                    default:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_LEFT));
+                        bottom = primitive.genNeighboor(Square.DIRECTION_BOTTOM);
+                        this.set.add(bottom);
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_BOTTOM));
+
+                }
             }break;
             case SQUARE_SET_S:
             {
@@ -135,11 +266,64 @@ public class SquareSet {
                 Square.colors = c;
                 primitive = new Square(size, x,y);
                 this.set.add(primitive);
-                Square rightS = primitive.genNeighboor(Square.DIRECTION_RIGHT);
-                this.set.add(rightS);
-                Square bottomS = rightS.genNeighboor(Square.DIRECTION_BOTTOM);
-                this.set.add(bottomS);
-                this.set.add(bottomS.genNeighboor(Square.DIRECTION_RIGHT));
+                Square right;
+                Square bottom;
+                choice = rd.nextInt(2);
+                switch (choice)
+                {
+                    // ##
+                    //  ##
+                    case 0:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_LEFT));
+                        bottom = primitive.genNeighboor(Square.DIRECTION_BOTTOM);
+                        this.set.add(bottom);
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_RIGHT));
+                        break;
+                    //  #
+                    // ##
+                    // #
+                    case 1:
+                    default:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_BOTTOM));
+                        right = primitive.genNeighboor(Square.DIRECTION_RIGHT);
+                        this.set.add(right);
+                        this.set.add(right.genNeighboor(Square.DIRECTION_TOP));
+                }
+            }   break;
+            case SQUARE_SET_S2:
+            {
+                float[] c= {
+                        1f, 0f, 1f, 1f,
+                        1f, 0f, 1f, 1f,
+                        1f, 0f, 1f, 1f,
+                        1f, 0f, 1f, 1f, // vertex 3 magenta
+                };
+                Square.colors = c;
+                primitive = new Square(size, x,y);
+                this.set.add(primitive);
+                Square right;
+                Square bottom;
+                choice = rd.nextInt(2);
+                switch (choice)
+                {
+                    //  ##
+                    // ##
+                    case 0:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_RIGHT));
+                        bottom = primitive.genNeighboor(Square.DIRECTION_BOTTOM);
+                        this.set.add(bottom);
+                        this.set.add(bottom.genNeighboor(Square.DIRECTION_LEFT));
+                        break;
+                    // #
+                    // ##
+                    //  #
+                    case 1:
+                    default:
+                        this.set.add(primitive.genNeighboor(Square.DIRECTION_TOP));
+                        right = primitive.genNeighboor(Square.DIRECTION_RIGHT);
+                        this.set.add(right);
+                        this.set.add(right.genNeighboor(Square.DIRECTION_BOTTOM));
+                }
             }   break;
             case SQUARE_SET_C:
             default:
