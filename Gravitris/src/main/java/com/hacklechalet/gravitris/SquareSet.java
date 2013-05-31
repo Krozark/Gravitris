@@ -20,6 +20,8 @@ public class SquareSet {
     public final static int SQUARE_SET_S2 = 5;
     public final static int SQUARE_SET_C = 6;
 
+    protected static Random rd = new Random();
+
 
     public SquareSet()
     {
@@ -38,8 +40,7 @@ public class SquareSet {
         this();
         if(type < 0 || type > 6)
         {
-            Random rnd = new Random();
-            type = rnd.nextInt(6);
+            type = rd.nextInt(7);
         }
         Square primitive;
         float x,y;
@@ -59,7 +60,6 @@ public class SquareSet {
             y = 4.4f;
         }
 
-        Random rd = new Random();
         int choice;
         switch(type)
         {
@@ -74,7 +74,7 @@ public class SquareSet {
                 Square.colors = c;
                 primitive = new Square(size, x,y);
                 // Choice between the 4 different forms
-                choice = rd.nextInt(3);
+                choice = rd.nextInt(4);
                 Square bottom;
                 this.set.add(primitive);
                 switch(choice)
@@ -126,7 +126,7 @@ public class SquareSet {
                 Square.colors = c;
                 primitive = new Square(size, x,y);
                 this.set.add(primitive);
-                choice = rd.nextInt(1);
+                choice = rd.nextInt(2);
                 switch(choice)
                 {
                     // ####
@@ -160,7 +160,7 @@ public class SquareSet {
                 Square.colors = c;
                 primitive = new Square(size, x,y);
                 this.set.add(primitive);
-                choice = rd.nextInt(3);
+                choice = rd.nextInt(4);
                 Square bottom;
                 Square right;
                 switch (choice)
@@ -215,7 +215,7 @@ public class SquareSet {
                 Square right;
                 Square bottom;
                 this.set.add(primitive);
-                choice = rd.nextInt(3);
+                choice = rd.nextInt(4);
                 switch(choice)
                 {
                     //   #
