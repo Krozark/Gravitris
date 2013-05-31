@@ -1,21 +1,15 @@
 package com.hacklechalet.gravitris;
-import android.util.Log;
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.joints.DistanceJointDef;
-import org.jbox2d.dynamics.joints.RopeJointDef;
+
 
 import javax.microedition.khronos.opengles.GL10;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
-
-import java.util.Vector;
-
-import static android.util.FloatMath.cos;
-import static android.util.FloatMath.sin;
 
 public class Square extends  PhysiqueObject{
     // Our vertices.
@@ -38,23 +32,22 @@ public class Square extends  PhysiqueObject{
             1f, 0f, 1f, 1f, // vertex 3 magenta
     };
 
-    // Our vertex buffer.
-    private FloatBuffer vertexBuffer;
     // Our index buffer.
     private ShortBuffer indexBuffer;
     private FloatBuffer colorBuffer;
 
 
-    private float size =1;
+    private float size = 1;
 
-    public Square(float _size,float posx,float posy)
+    public Square(float size,float posx,float posy)
     {
         super(posx,posy,BodyType.DYNAMIC);
+        this.size = size;
 
         top_left = new Vector2<Float>(posx,posy);
-        top_right = new Vector2<Float>(posx + (float)1*size, posy);
-        bottom_left = new Vector2<Float>(posx, posy + (float)1*size);
-        bottom_right = new Vector2<Float>(posx + (float)1*size, posy + (float)1*size);
+        top_right = new Vector2<Float>(posx + size, posy);
+        bottom_left = new Vector2<Float>(posx, posy + size);
+        bottom_right = new Vector2<Float>(posx + size, posy + size);
 
         // short is 2 bytes, therefore we multiply the number if
         // vertices with 2.
@@ -70,11 +63,9 @@ public class Square extends  PhysiqueObject{
         colorBuffer.put(colors);
         colorBuffer.position(0);
 
-        setSize(_size);
         shape.setAsBox(toMet(size),toMet(size));
         fixtureDef.shape = shape;
         fixture = body.createFixture(fixtureDef);
-        //majPosition();
     }
 
 
@@ -84,11 +75,6 @@ public class Square extends  PhysiqueObject{
      */
     public Square genNeighboor(int position)
     {
-        /*
-        Vector2<Float> originPosition = this.getPosition();
-        float originX = originPosition.x;
-        float originY = originPosition.y;
-        */
         float originX = this.top_left.x;
         float originY = this.top_left.y;
         float targetX;
@@ -129,8 +115,8 @@ public class Square extends  PhysiqueObject{
     private void setPosition(float x,float y)
     {
         float angle = body.getAngle();
-        float _cos = cos(angle);
-        float _sin = sin(angle);
+        //float _cos = cos(angle);
+        //float _sin = sin(angle);
 
         //x2 = (cos(radials) * x1) - (sin(radials) * y1);
         //y2 = (sin(radials) * x1) + (cos(radials) * y1);
@@ -171,11 +157,6 @@ public class Square extends  PhysiqueObject{
         return new Vector2<Float>(top_left.x+size,top_left.y+size);
     }
 
-    private void setSize(float _size)
-    {
-        size = _size;
-    }
-
     public boolean contains(float x, float y)
     {
         return this.top_left.x > x && this.bottom_right.x < x && this.top_left.y < y && this.bottom_right.y > y;
@@ -194,7 +175,7 @@ public class Square extends  PhysiqueObject{
         // vertices with 4.
         ByteBuffer vbb = ByteBuffer.allocateDirect(matrixVertices.length * 4);
         vbb.order(ByteOrder.nativeOrder());
-        vertexBuffer = vbb.asFloatBuffer();
+        FloatBuffer vertexBuffer = vbb.asFloatBuffer();
         vertexBuffer.put(matrixVertices);
         vertexBuffer.position(0);
 
