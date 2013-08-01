@@ -2,7 +2,6 @@ package com.hacklechalet.gravitris;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -11,7 +10,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.opengl.GLSurfaceView;
-import android.opengl.GLU;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
