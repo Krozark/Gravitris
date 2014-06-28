@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -25,9 +26,9 @@ public class GameActivity extends Activity implements SensorEventListener {
     protected SensorManager sensorManager;
     protected Sensor sensor;
     public float[] gravityValues;
-    public final static int REFRESH_RATE = 1000000 / 60;
     private TextView textViewScore;
     private TextView textViewResScore;
+    private Button buttonPause;
 
     private LinearLayout row;
     public String stringScore = "0";
@@ -48,13 +49,36 @@ public class GameActivity extends Activity implements SensorEventListener {
 
         this.sensorManager = (SensorManager) this.getSystemService(Context.SENSOR_SERVICE);
         this.sensor = this.sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
-        this.sensorManager.registerListener(this, sensor, GameActivity.REFRESH_RATE);
+        this.sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
 
-
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.startGame();
 
     }
+
+    public void setPausedStatus()
+    {
+        this.runOnUiThread(new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                buttonPause.setText(R.string.button_pause_resume);
+            }
+        }));
+    }
+
+    public void setResumedStatus()
+    {
+        this.runOnUiThread(new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                buttonPause.setText(R.string.button_pause_pause);
+            }
+        }));
+    }
+
 
     @Override
     protected void onPause() {
@@ -65,7 +89,7 @@ public class GameActivity extends Activity implements SensorEventListener {
 
     @Override
     protected void onResume() {
-        this.sensorManager.registerListener(this, sensor, GameActivity.REFRESH_RATE);
+        this.sensorManager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         super.onResume();
     }
@@ -75,23 +99,23 @@ public class GameActivity extends Activity implements SensorEventListener {
     {
         this.sensorManager.unregisterListener(this);
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(5000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-
-                    }
-                });
-            }
-        }).start();
+//
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(5000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//
+//                    }
+//                });
+//            }
+//        }).start();
 
         super.onDestroy();
     }
@@ -120,21 +144,21 @@ public class GameActivity extends Activity implements SensorEventListener {
         openGlRender = new OpenGLRenderer(width,height,this.gravityValues);
         view.setOnTouchListener(openGlRender);
 
-        Button buttonPause = new Button(this);
+        this.buttonPause = new Button(this);
 
-        buttonPause.setOnClickListener(new OnClickListenerGameButton(openGlRender));
+        this.buttonPause.setOnClickListener(new OnClickListenerGameButton(this, openGlRender));
 
-        buttonPause.setText("Pause");
+        this.buttonPause.setText(R.string.button_pause_pause);
 
         row.setBackgroundColor(Color.DKGRAY);
 
         textViewScore.setWidth((width-10) / 3);
         textViewResScore.setWidth((width-10) / 3);
-        buttonPause.setWidth((width - 10) / 3);
+        this.buttonPause.setWidth((width - 10) / 3);
 
         row.addView(textViewScore, 0);
         row.addView(textViewResScore, 1);
-        row.addView(buttonPause, 2);
+        row.addView(this.buttonPause, 2);
 
         view.setRenderer(openGlRender);
         view.setOnTouchListener(openGlRender);

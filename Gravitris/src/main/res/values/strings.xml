@@ -20,6 +20,8 @@
     <string name="zValue_textView">value z</string>
     <string name="textView_lastScore">Last score:</string>
     <string name="textView_lastResScore">0</string>
+    <string name="button_pause_pause">Pause</string>
+    <string name="button_pause_resume">Resume</string>
 
 
 </resources>

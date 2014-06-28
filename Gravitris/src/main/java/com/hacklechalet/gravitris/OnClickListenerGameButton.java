@@ -7,10 +7,12 @@ import android.view.View;
  */
 public class OnClickListenerGameButton implements View.OnClickListener {
     private OpenGLRenderer render;
+    private GameActivity activity;
     private boolean pause = false;
 
-    public OnClickListenerGameButton(OpenGLRenderer render)
+    public OnClickListenerGameButton(GameActivity activity, OpenGLRenderer render)
     {
+        this.activity = activity;
         this.render = render;
     }
 
@@ -20,11 +22,13 @@ public class OnClickListenerGameButton implements View.OnClickListener {
         {
             this.pause = true;
             render.setPause();
+            activity.setPausedStatus();
         }
         else
         {
             this.pause = false;
             render.resume();
+            activity.setResumedStatus();
         }
     }
 }
